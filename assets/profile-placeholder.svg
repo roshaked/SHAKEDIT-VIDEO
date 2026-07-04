@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Profile image placeholder</title>
+  <desc id="desc">Cyber futuristic placeholder for a personal profile photo.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071226"/>
+      <stop offset=".45" stop-color="#101752"/>
+      <stop offset="1" stop-color="#310a42"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#25d9ff"/>
+      <stop offset=".5" stop-color="#8d65ff"/>
+      <stop offset="1" stop-color="#f02dff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="1100" fill="#03040d"/>
+  <rect x="30" y="30" width="840" height="1040" rx="24" fill="url(#bg)" stroke="url(#neon)" stroke-width="4"/>
+  <path d="M90 870h720M90 930h720M90 990h720M150 810V1010M270 760V1010M390 720V1010M510 720V1010M630 760V1010M750 810V1010" stroke="#25d9ff" stroke-opacity=".28" stroke-width="2"/>
+  <circle cx="450" cy="375" r="150" fill="none" stroke="url(#neon)" stroke-width="10" filter="url(#glow)"/>
+  <path d="M230 840c24-162 113-252 220-252s196 90 220 252" fill="none" stroke="url(#neon)" stroke-width="12" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M320 375c48-82 190-82 260 0" fill="none" stroke="#ffffff" stroke-opacity=".62" stroke-width="5"/>
+  <text x="450" y="940" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="42" font-weight="700">התמונה שלך כאן</text>
+  <text x="450" y="995" text-anchor="middle" fill="#9fefff" font-family="Arial, sans-serif" font-size="24">החלף ל-assets/profile.jpg</text>
+</svg>

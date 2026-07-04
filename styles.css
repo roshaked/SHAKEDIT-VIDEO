@@ -21,6 +21,7 @@
 
 html {
   scroll-behavior: smooth;
+  direction: rtl;
 }
 
 body {
@@ -31,6 +32,8 @@ body {
     radial-gradient(circle at 86% 10%, rgba(37, 217, 255, 0.18), transparent 30rem),
     linear-gradient(180deg, #02030b 0%, #050816 48%, #02030a 100%);
   color: var(--text);
+  direction: rtl;
+  text-align: right;
 }
 
 a {
@@ -67,6 +70,7 @@ video {
   background: linear-gradient(180deg, rgba(2, 3, 11, 0.92), rgba(2, 3, 11, 0.28));
   border-bottom: 1px solid rgba(37, 217, 255, 0.18);
   backdrop-filter: blur(16px);
+  direction: rtl;
 }
 
 .brand {
@@ -104,6 +108,7 @@ video {
   gap: clamp(16px, 3vw, 38px);
   font-size: 0.95rem;
   font-weight: 700;
+  direction: rtl;
 }
 
 .main-nav a {
@@ -150,6 +155,7 @@ video {
   justify-content: center;
   min-height: 46px;
   padding: 0 24px;
+  text-align: center;
 }
 
 .button.primary {
@@ -197,6 +203,7 @@ video {
   padding: 130px clamp(20px, 6vw, 86px) 74px;
   overflow: hidden;
   border-bottom: 1px solid rgba(37, 217, 255, 0.28);
+  direction: ltr;
 }
 
 .hero-bg {
@@ -224,6 +231,9 @@ video {
 
 .hero-content {
   max-width: 720px;
+  justify-self: start;
+  direction: rtl;
+  text-align: right;
 }
 
 .eyebrow {
@@ -233,6 +243,8 @@ video {
   font-weight: 900;
   letter-spacing: 0;
   text-transform: uppercase;
+  direction: ltr;
+  unicode-bidi: plaintext;
 }
 
 h1,
@@ -264,13 +276,17 @@ h3 {
   color: #dfe7f8;
   font-size: clamp(1.06rem, 1.8vw, 1.35rem);
   line-height: 1.75;
+  direction: rtl;
+  text-align: right;
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 16px;
   margin-top: 34px;
+  direction: rtl;
 }
 
 .hero-panel {
@@ -283,6 +299,8 @@ h3 {
   border-radius: var(--radius);
   background: linear-gradient(145deg, rgba(3, 7, 20, 0.52), rgba(12, 18, 46, 0.38));
   box-shadow: var(--shadow);
+  direction: rtl;
+  text-align: right;
 }
 
 .hero-panel span {
@@ -306,12 +324,13 @@ h3 {
 }
 
 .section-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
+  display: grid;
+  justify-items: start;
+  gap: 6px;
   max-width: 1160px;
   margin: 0 auto 28px;
+  direction: rtl;
+  text-align: right;
 }
 
 .filter-bar {
@@ -320,6 +339,7 @@ h3 {
   justify-content: center;
   gap: 10px;
   margin-bottom: 24px;
+  direction: rtl;
 }
 
 .chip {
@@ -336,7 +356,6 @@ h3 {
 .video-grid,
 .youtube-grid,
 .service-grid,
-.pricing-grid,
 .testimonial-grid {
   display: grid;
   max-width: 1160px;
@@ -353,6 +372,7 @@ h3 {
   grid-template-columns: minmax(260px, 0.42fr) minmax(0, 0.72fr);
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
+  direction: ltr;
 }
 
 .about-photo {
@@ -385,12 +405,15 @@ h3 {
 
 .about-content {
   max-width: 760px;
+  direction: rtl;
+  text-align: right;
 }
 
 .about-content p {
   color: var(--muted);
   font-size: 1.08rem;
   line-height: 1.78;
+  text-align: right;
 }
 
 .about-stats {
@@ -398,6 +421,8 @@ h3 {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 26px;
+  justify-content: flex-start;
+  direction: rtl;
 }
 
 .about-stats span {
@@ -424,6 +449,8 @@ h3 {
   border-radius: var(--radius);
   background: linear-gradient(180deg, rgba(9, 16, 40, 0.86), rgba(3, 6, 18, 0.9));
   transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+  direction: rtl;
+  text-align: right;
 }
 
 .youtube-card:hover {
@@ -495,7 +522,6 @@ h3 {
 
 .video-card,
 .service-grid article,
-.price-card,
 .testimonial-grid figure {
   border: 1px solid rgba(37, 217, 255, 0.34);
   border-radius: var(--radius);
@@ -505,6 +531,8 @@ h3 {
 
 .video-card {
   padding: 12px;
+  direction: rtl;
+  text-align: right;
 }
 
 .video-card.is-hidden {
@@ -574,11 +602,11 @@ h3 {
 .video-card h3,
 .video-card p {
   margin: 12px 2px 8px;
+  text-align: right;
 }
 
 .video-card p,
 .service-grid p,
-.price-card p,
 .process-list p,
 .contact-section p,
 blockquote {
@@ -591,6 +619,8 @@ blockquote {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
+  justify-content: flex-start;
+  direction: rtl;
 }
 
 .tags span {
@@ -632,6 +662,7 @@ blockquote {
   padding: 24px;
   border-top: 1px solid rgba(240, 45, 255, 0.6);
   background: linear-gradient(180deg, rgba(14, 18, 48, 0.7), rgba(4, 6, 18, 0.42));
+  text-align: right;
 }
 
 .process-list span {
@@ -641,52 +672,6 @@ blockquote {
   font-weight: 900;
 }
 
-.pricing-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
-}
-
-.price-card {
-  position: relative;
-  display: grid;
-  gap: 14px;
-  padding: 30px;
-  text-align: center;
-}
-
-.price-card.is-featured {
-  border-color: var(--pink);
-  transform: translateY(-12px);
-  box-shadow: var(--shadow);
-}
-
-.badge {
-  position: absolute;
-  top: -15px;
-  right: 50%;
-  transform: translateX(50%);
-  padding: 5px 18px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--pink), var(--cyan));
-  font-size: 0.82rem;
-  font-weight: 900;
-}
-
-.price-card strong {
-  color: #f4f8ff;
-  font-size: 2.7rem;
-  text-shadow: 0 0 16px rgba(255, 122, 47, 0.65);
-}
-
-.price-card ul {
-  display: grid;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  color: #dce8ff;
-  list-style: none;
-}
-
 .testimonial-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -694,6 +679,7 @@ blockquote {
 .testimonial-grid figure {
   margin: 0;
   padding: 28px;
+  text-align: right;
 }
 
 blockquote {
@@ -718,6 +704,8 @@ figcaption {
   grid-template-columns: minmax(0, 0.8fr) minmax(300px, 0.7fr);
   gap: 36px;
   align-items: start;
+  direction: rtl;
+  text-align: right;
 }
 
 .contact-form {
@@ -727,6 +715,8 @@ figcaption {
   border: 1px solid rgba(37, 217, 255, 0.32);
   border-radius: var(--radius);
   background: var(--panel);
+  direction: rtl;
+  text-align: right;
 }
 
 .form-note {
@@ -756,6 +746,8 @@ textarea {
   font: inherit;
   padding: 13px 14px;
   outline: none;
+  direction: rtl;
+  text-align: right;
 }
 
 input:focus,
@@ -778,6 +770,8 @@ button:disabled {
   gap: 24px;
   padding: 28px clamp(20px, 6vw, 86px);
   color: var(--muted);
+  direction: rtl;
+  text-align: right;
 }
 
 .social-links {
@@ -938,13 +932,8 @@ button:disabled {
   .youtube-grid,
   .service-grid,
   .process-list,
-  .pricing-grid,
   .testimonial-grid {
     grid-template-columns: 1fr;
-  }
-
-  .price-card.is-featured {
-    transform: none;
   }
 
   .hero-actions {
