@@ -311,7 +311,9 @@ h3 {
 }
 
 .hero-panel strong {
-  font-size: 1.3rem;
+  max-width: 260px;
+  font-size: clamp(1.02rem, 1.6vw, 1.3rem);
+  line-height: 1.35;
 }
 
 .hero-panel small {
