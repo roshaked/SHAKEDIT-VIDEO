@@ -664,14 +664,33 @@ h3 {
   cursor: pointer;
 }
 
+.video-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.15) contrast(1.05);
+  transition: transform 180ms ease;
+}
+
+.video-thumb:hover img {
+  transform: scale(1.04);
+}
+
 .video-thumb::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
     radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.28), transparent 14%),
     linear-gradient(145deg, rgba(37, 217, 255, 0.16), rgba(240, 45, 255, 0.16));
   mix-blend-mode: screen;
+}
+
+.video-thumb .play-icon {
+  z-index: 2;
 }
 
 .neon-a {

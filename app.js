@@ -31,7 +31,7 @@ filterButtons.forEach((button) => {
   });
 });
 
-document.querySelectorAll(".video-thumb").forEach((button) => {
+document.querySelectorAll("button.video-thumb").forEach((button) => {
   button.addEventListener("click", () => {
     const title = button.dataset.title || "וידאו";
     const src = button.dataset.video || "";
