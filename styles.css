@@ -197,7 +197,7 @@ video {
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(260px, 0.45fr);
+  grid-template-columns: minmax(260px, 0.45fr) minmax(0, 0.9fr);
   align-items: center;
   min-height: 92vh;
   padding: 130px clamp(20px, 6vw, 86px) 74px;
@@ -210,8 +210,8 @@ video {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(2, 3, 11, 0.96) 0%, rgba(2, 3, 11, 0.72) 38%, rgba(2, 3, 11, 0.12) 100%),
-    url("assets/hero-cyber-studio.png") center right / cover no-repeat;
+    linear-gradient(270deg, rgba(2, 3, 11, 0.96) 0%, rgba(2, 3, 11, 0.78) 38%, rgba(2, 3, 11, 0.16) 100%),
+    url("assets/hero-cyber-studio.png") center left / cover no-repeat;
   filter: saturate(1.15) contrast(1.08);
   z-index: -3;
 }
@@ -231,7 +231,8 @@ video {
 
 .hero-content {
   max-width: 720px;
-  justify-self: start;
+  grid-column: 2;
+  justify-self: end;
   direction: rtl;
   text-align: right;
 }
@@ -290,7 +291,8 @@ h3 {
 }
 
 .hero-panel {
-  justify-self: end;
+  grid-column: 1;
+  justify-self: start;
   display: grid;
   gap: 8px;
   width: min(100%, 330px);
@@ -1028,6 +1030,12 @@ button:disabled {
   .hero {
     grid-template-columns: 1fr;
     min-height: auto;
+    direction: rtl;
+  }
+
+  .hero-content,
+  .hero-panel {
+    grid-column: auto;
   }
 
   .hero-panel {
