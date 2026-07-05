@@ -325,6 +325,47 @@ h3 {
   border-bottom: 1px solid rgba(37, 217, 255, 0.2);
 }
 
+.youtube-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(141, 101, 255, 0.2), transparent 24rem),
+    radial-gradient(circle at 78% 44%, rgba(37, 217, 255, 0.18), transparent 26rem),
+    linear-gradient(180deg, rgba(3, 9, 24, 0.28), rgba(4, 6, 18, 0.08));
+}
+
+.youtube-section::before,
+.youtube-section::after {
+  content: "";
+  position: absolute;
+  inset-inline: -8%;
+  pointer-events: none;
+}
+
+.youtube-section::before {
+  top: 118px;
+  height: 330px;
+  opacity: 0.55;
+  background:
+    radial-gradient(ellipse at 18% 54%, rgba(37, 217, 255, 0.24), transparent 24%),
+    radial-gradient(ellipse at 72% 42%, rgba(255, 122, 47, 0.16), transparent 22%),
+    repeating-radial-gradient(ellipse at 50% 50%, rgba(37, 217, 255, 0.18) 0 1px, transparent 2px 18px);
+  filter: blur(0.2px);
+  transform: skewY(-7deg);
+}
+
+.youtube-section::after {
+  top: 170px;
+  height: 210px;
+  opacity: 0.45;
+  background:
+    linear-gradient(90deg, transparent, rgba(37, 217, 255, 0.34), transparent),
+    linear-gradient(110deg, transparent 7%, rgba(240, 45, 255, 0.26) 34%, transparent 60%),
+    linear-gradient(70deg, transparent 18%, rgba(92, 255, 196, 0.24) 48%, transparent 78%);
+  clip-path: polygon(0 64%, 10% 50%, 21% 58%, 32% 36%, 43% 52%, 55% 27%, 66% 43%, 78% 22%, 88% 37%, 100% 18%, 100% 46%, 88% 58%, 78% 43%, 66% 62%, 55% 50%, 43% 74%, 32% 58%, 21% 80%, 10% 70%, 0 86%);
+  filter: blur(8px);
+}
+
 .section-heading {
   display: grid;
   justify-items: start;
@@ -441,34 +482,94 @@ h3 {
 
 .youtube-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+  z-index: 1;
+  padding: clamp(12px, 2vw, 22px);
+  border: 1px solid rgba(37, 217, 255, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(7, 13, 32, 0.62), rgba(2, 4, 14, 0.28)),
+    linear-gradient(90deg, rgba(37, 217, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(240, 45, 255, 0.08) 1px, transparent 1px);
+  background-size: auto, 44px 44px, 44px 44px;
+  box-shadow: inset 0 0 34px rgba(37, 217, 255, 0.08), 0 0 36px rgba(37, 217, 255, 0.06);
 }
 
 .youtube-card {
+  position: relative;
   display: grid;
   gap: 12px;
-  padding: 12px 12px 18px;
-  border: 1px solid rgba(37, 217, 255, 0.34);
+  min-height: 100%;
+  padding: 12px 12px 20px;
+  border: 1px solid rgba(37, 217, 255, 0.42);
   border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(9, 16, 40, 0.86), rgba(3, 6, 18, 0.9));
-  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease;
+  background:
+    linear-gradient(180deg, rgba(12, 26, 54, 0.66), rgba(4, 8, 24, 0.86)),
+    radial-gradient(circle at 22% 0%, rgba(37, 217, 255, 0.18), transparent 46%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 26px rgba(37, 217, 255, 0.08);
+  backdrop-filter: blur(14px);
+  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease, background 170ms ease;
   direction: rtl;
   text-align: right;
 }
 
+.youtube-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(37, 217, 255, 0.72), rgba(255, 122, 47, 0.38), rgba(240, 45, 255, 0.62));
+  opacity: 0;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 170ms ease;
+}
+
+.youtube-card::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  width: 46px;
+  height: 20px;
+  border-block: 1px solid rgba(92, 255, 196, 0.52);
+  background: linear-gradient(90deg, transparent, rgba(92, 255, 196, 0.2), transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 .youtube-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--pink);
-  box-shadow: var(--shadow);
+  transform: translateY(-6px);
+  border-color: rgba(37, 217, 255, 0.8);
+  background:
+    linear-gradient(180deg, rgba(15, 32, 66, 0.8), rgba(4, 8, 24, 0.92)),
+    radial-gradient(circle at 22% 0%, rgba(255, 122, 47, 0.22), transparent 48%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 0 32px rgba(37, 217, 255, 0.18),
+    0 0 44px rgba(240, 45, 255, 0.12);
+}
+
+.youtube-card:hover::before {
+  opacity: 1;
 }
 
 .youtube-card strong {
   padding: 0 4px;
-  font-size: 1.1rem;
+  color: #f8fbff;
+  font-size: 1.08rem;
+  line-height: 1.35;
+  text-shadow: 0 0 16px rgba(37, 217, 255, 0.22);
 }
 
 .youtube-card small {
   padding: 0 4px;
-  color: var(--muted);
+  color: #b9d7e6;
   line-height: 1.55;
 }
 
@@ -477,9 +578,13 @@ h3 {
   display: grid;
   place-items: center;
   aspect-ratio: 16 / 9;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(37, 217, 255, 0.36);
   border-radius: 6px;
   overflow: hidden;
+  background:
+    radial-gradient(circle at 26% 20%, rgba(37, 217, 255, 0.3), transparent 28%),
+    #061228;
+  box-shadow: inset 0 0 18px rgba(37, 217, 255, 0.14);
 }
 
 .youtube-thumb img {
@@ -502,12 +607,18 @@ h3 {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.48), rgba(255, 255, 255, 0.08)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 18px);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0.08)),
+    linear-gradient(180deg, transparent 0 70%, rgba(37, 217, 255, 0.22)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(0deg, transparent 0 8px, rgba(37, 217, 255, 0.06) 9px 10px);
 }
 
 .youtube-thumb .play-icon {
   z-index: 2;
+  width: 52px;
+  height: 52px;
+  border-color: rgba(92, 255, 196, 0.92);
+  box-shadow: 0 0 18px rgba(92, 255, 196, 0.62), 0 0 26px rgba(37, 217, 255, 0.35);
 }
 
 .yt-a {
@@ -911,6 +1022,16 @@ button:disabled {
   .process-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .youtube-section::before {
+    top: 150px;
+    height: 420px;
+  }
+
+  .youtube-section::after {
+    top: 220px;
+    opacity: 0.34;
+  }
 }
 
 @media (max-width: 720px) {
@@ -936,6 +1057,16 @@ button:disabled {
   .process-list,
   .testimonial-grid {
     grid-template-columns: 1fr;
+  }
+
+  .youtube-grid {
+    padding: 12px;
+    background-size: auto, 34px 34px, 34px 34px;
+  }
+
+  .youtube-section::before,
+  .youtube-section::after {
+    opacity: 0.24;
   }
 
   .hero-actions {
