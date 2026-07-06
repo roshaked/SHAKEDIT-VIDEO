@@ -212,7 +212,7 @@ video {
   inset: 0;
   background:
     linear-gradient(270deg, rgba(2, 3, 11, 0.96) 0%, rgba(2, 3, 11, 0.78) 38%, rgba(2, 3, 11, 0.16) 100%),
-    url("assets/hero-cyber-studio.png") center left / cover no-repeat;
+    url("assets/hero-cyber-studio.png") right center / auto 150% no-repeat;
   filter: saturate(1.15) contrast(1.08);
   z-index: -3;
 }
@@ -1238,6 +1238,12 @@ button:disabled {
     column-gap: 0;
     min-height: auto;
     direction: rtl;
+  }
+
+  .hero-bg {
+    background:
+      linear-gradient(270deg, rgba(2, 3, 11, 0.96) 0%, rgba(2, 3, 11, 0.78) 38%, rgba(2, 3, 11, 0.16) 100%),
+      url("assets/hero-cyber-studio.png") center left / cover no-repeat;
   }
 
   .hero-content,
