@@ -318,6 +318,12 @@ class VideoCoverflow {
       this.pause();
       this.goTo(index);
       this.resume(900);
+      return;
+    }
+
+    const link = card.matches("a[href]") ? card : card.querySelector("a[href]");
+    if (link && !event.target.closest("a[href]")) {
+      window.open(link.href, link.target || "_self", "noreferrer");
     }
   }
 }
