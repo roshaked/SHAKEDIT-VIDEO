@@ -233,7 +233,7 @@ video {
 .hero-content {
   max-width: 720px;
   grid-column: 2;
-  justify-self: start;
+  justify-self: end;
   direction: rtl;
   text-align: right;
 }
