@@ -1,7 +1,7 @@
 const header = document.querySelector(".site-header");
 const menuToggle = document.querySelector(".menu-toggle");
 const filterButtons = document.querySelectorAll("[data-filter]");
-const cards = document.querySelectorAll(".video-card");
+const cards = document.querySelectorAll(".work-source .video-card");
 const modal = document.querySelector(".video-modal");
 const closeModal = document.querySelector(".modal-close");
 const modalPlayer = document.querySelector(".modal-player");
@@ -24,6 +24,7 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const filter = button.dataset.filter;
     filterButtons.forEach((item) => item.classList.toggle("is-selected", item === button));
+    window.setWorkFilter?.(filter);
     cards.forEach((card) => {
       const shouldShow = filter === "all" || card.dataset.category === filter;
       card.classList.toggle("is-hidden", !shouldShow);
@@ -33,8 +34,10 @@ filterButtons.forEach((button) => {
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const youtubeSource = document.querySelector(".youtube-source");
-const coverflow = document.querySelector(".youtube-coverflow");
+const youtubeCoverflowRoot = document.querySelector(".youtube-coverflow:not(.work-coverflow)");
+const workCoverflowRoot = document.querySelector(".work-coverflow");
 const sourceCards = [...youtubeSource?.querySelectorAll(".youtube-card") ?? []];
+const workSourceCards = [...document.querySelectorAll(".work-source .video-card")];
 
 function getYoutubeId(url) {
   try {
@@ -48,8 +51,9 @@ function getYoutubeId(url) {
 }
 
 function createPreviewFrame(card) {
-  const thumb = card.querySelector(".youtube-thumb");
-  const id = getYoutubeId(card.href);
+  const thumb = card.querySelector(".youtube-thumb, .video-thumb");
+  const videoLink = card.href || card.querySelector("a[href]")?.href || "";
+  const id = getYoutubeId(videoLink);
   if (!thumb || !id || thumb.querySelector(".preview-frame")) return;
 
   const frame = document.createElement("iframe");
@@ -84,6 +88,7 @@ class VideoCoverflow {
     this.resumeTimer = undefined;
     this.wheelTimer = undefined;
     this.cardStep = 230;
+    this.layoutScale = 1;
 
     this.mount(cards);
     this.bindEvents();
@@ -93,15 +98,29 @@ class VideoCoverflow {
   }
 
   mount(cards) {
+    this.cards.forEach((card) => removePreviewFrame(card));
+    this.stage.replaceChildren();
+    this.cards = [];
+
     cards.forEach((card, index) => {
       const clone = card.cloneNode(true);
-      const title = clone.querySelector("strong")?.textContent?.trim() || "סרטון לדוגמא";
+      const title = clone.querySelector("strong, h3")?.textContent?.trim() || "סרטון לדוגמא";
       clone.dataset.index = String(index);
       clone.setAttribute("aria-label", `${title} - צפייה ביוטיוב`);
       clone.querySelector("img")?.setAttribute("draggable", "false");
       this.stage.append(clone);
       this.cards.push(clone);
+      this.bindCardEvents(clone);
     });
+  }
+
+  setCards(cards) {
+    this.pause();
+    this.activeIndex = 0;
+    this.dragOffset = 0;
+    this.mount(cards);
+    this.render();
+    this.resume(700);
   }
 
   bindEvents() {
@@ -117,10 +136,6 @@ class VideoCoverflow {
     this.viewport.addEventListener("pointercancel", (event) => this.onPointerUp(event));
     this.prevButton?.addEventListener("click", () => this.goTo(this.activeIndex - 1));
     this.nextButton?.addEventListener("click", () => this.goTo(this.activeIndex + 1));
-    this.cards.forEach((card) => {
-      card.addEventListener("click", (event) => this.onCardClick(event, card));
-      card.addEventListener("focus", () => this.goTo(Number(card.dataset.index)));
-    });
     window.addEventListener("resize", () => {
       this.measure();
       this.render();
@@ -131,6 +146,11 @@ class VideoCoverflow {
     });
   }
 
+  bindCardEvents(card) {
+    card.addEventListener("click", (event) => this.onCardClick(event, card));
+    card.addEventListener("focus", () => this.goTo(Number(card.dataset.index)));
+  }
+
   measure() {
     const width = this.viewport?.clientWidth || 900;
     this.cardStep = Math.min(280, Math.max(150, width * 0.22));
@@ -138,6 +158,7 @@ class VideoCoverflow {
   }
 
   normalize(index) {
+    if (!this.cards.length) return 0;
     return (Math.round(index) % this.cards.length + this.cards.length) % this.cards.length;
   }
 
@@ -165,7 +186,7 @@ class VideoCoverflow {
 
   startAutoplay() {
     window.clearTimeout(this.autoTimer);
-    if (this.isPaused || prefersReducedMotion.matches || !this.cards.length) return;
+    if (this.isPaused || prefersReducedMotion.matches || this.cards.length < 2) return;
     this.autoTimer = window.setTimeout(() => {
       this.goTo(this.activeIndex + 1);
       this.startAutoplay();
@@ -203,9 +224,6 @@ class VideoCoverflow {
       const z = slot.z;
       const rotate = depth < 0.5 ? slot.rotate : Math.abs(slot.rotate) * -side;
       const tilt = depth < 0.5 ? slot.tilt : slot.tilt * mirror;
-      const scale = slot.scale;
-      const opacity = slot.opacity;
-      const blur = slot.blur;
       const isActive = index === this.activeIndex && Math.abs(progress - this.activeIndex) < 0.02;
 
       card.style.setProperty("--x", `${x}px`);
@@ -213,10 +231,10 @@ class VideoCoverflow {
       card.style.setProperty("--z", `${z}px`);
       card.style.setProperty("--rotate", `${rotate}deg`);
       card.style.setProperty("--tilt", `${tilt}deg`);
-      card.style.setProperty("--scale", String(scale));
-      card.style.setProperty("--card-opacity", String(opacity));
+      card.style.setProperty("--scale", String(slot.scale));
+      card.style.setProperty("--card-opacity", String(slot.opacity));
       card.style.setProperty("--card-brightness", String(Math.max(0.55, 1 - depth * 0.12)));
-      card.style.setProperty("--card-blur", `${blur}px`);
+      card.style.setProperty("--card-blur", `${slot.blur}px`);
       card.style.setProperty("--depth", String(Math.round(depth)));
       card.classList.toggle("is-active", isActive);
       card.setAttribute("aria-current", isActive ? "true" : "false");
@@ -304,8 +322,20 @@ class VideoCoverflow {
   }
 }
 
-if (coverflow && sourceCards.length) {
-  new VideoCoverflow(coverflow, sourceCards);
+let workCoverflow;
+
+if (youtubeCoverflowRoot && sourceCards.length) {
+  new VideoCoverflow(youtubeCoverflowRoot, sourceCards);
+}
+
+if (workCoverflowRoot && workSourceCards.length) {
+  workCoverflow = new VideoCoverflow(workCoverflowRoot, workSourceCards);
+  window.setWorkFilter = (filter = "all") => {
+    const filteredCards = filter === "all"
+      ? workSourceCards
+      : workSourceCards.filter((card) => card.dataset.category === filter);
+    workCoverflow.setCards(filteredCards);
+  };
 }
 
 document.querySelectorAll("button.video-thumb").forEach((button) => {

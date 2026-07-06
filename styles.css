@@ -637,7 +637,8 @@ h3 {
   pointer-events: none;
 }
 
-.coverflow-stage .youtube-card {
+.coverflow-stage .youtube-card,
+.coverflow-stage .video-card {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -665,11 +666,13 @@ h3 {
     background 300ms ease;
 }
 
-.coverflow-stage.is-dragging .youtube-card {
+.coverflow-stage.is-dragging .youtube-card,
+.coverflow-stage.is-dragging .video-card {
   transition: border-color 300ms ease, box-shadow 300ms ease, background 300ms ease;
 }
 
-.coverflow-stage .youtube-card.is-active {
+.coverflow-stage .youtube-card.is-active,
+.coverflow-stage .video-card.is-active {
   border-color: rgba(37, 217, 255, 0.86);
   animation: activeCardFloat 4.8s ease-in-out infinite;
   box-shadow:
@@ -679,7 +682,8 @@ h3 {
     0 22px 46px rgba(0, 0, 0, 0.48);
 }
 
-.coverflow-stage .youtube-card.is-active .youtube-thumb {
+.coverflow-stage .youtube-card.is-active .youtube-thumb,
+.coverflow-stage .video-card.is-active .video-thumb {
   box-shadow:
     inset 0 0 18px rgba(37, 217, 255, 0.22),
     0 0 24px rgba(37, 217, 255, 0.2);
@@ -687,18 +691,24 @@ h3 {
 
 .coverflow-stage .youtube-card.is-active::before,
 .coverflow-stage .youtube-card:hover::before,
-.coverflow-stage .youtube-card:focus-visible::before {
+.coverflow-stage .youtube-card:focus-visible::before,
+.coverflow-stage .video-card.is-active::before,
+.coverflow-stage .video-card:hover::before,
+.coverflow-stage .video-card:focus-visible::before {
   opacity: 1;
 }
 
-.coverflow-stage .youtube-card:not(.is-active) {
+.coverflow-stage .youtube-card:not(.is-active),
+.coverflow-stage .video-card:not(.is-active) {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 14px 30px rgba(0, 0, 0, 0.38);
 }
 
 .coverflow-stage .youtube-card:hover,
-.coverflow-stage .youtube-card:focus-visible {
+.coverflow-stage .youtube-card:focus-visible,
+.coverflow-stage .video-card:hover,
+.coverflow-stage .video-card:focus-visible {
   border-color: rgba(37, 217, 255, 0.82);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
@@ -706,7 +716,8 @@ h3 {
     0 14px 34px rgba(0, 0, 0, 0.34);
 }
 
-.coverflow-stage .youtube-card:focus-visible {
+.coverflow-stage .youtube-card:focus-visible,
+.coverflow-stage .video-card:focus-visible {
   box-shadow:
     0 0 0 3px rgba(255, 122, 47, 0.44),
     0 0 34px rgba(37, 217, 255, 0.24);
@@ -714,7 +725,10 @@ h3 {
 
 .coverflow-stage .youtube-card:hover .play-icon,
 .coverflow-stage .youtube-card:focus-visible .play-icon,
-.coverflow-stage .youtube-card.is-active .play-icon {
+.coverflow-stage .youtube-card.is-active .play-icon,
+.coverflow-stage .video-card:hover .play-icon,
+.coverflow-stage .video-card:focus-visible .play-icon,
+.coverflow-stage .video-card.is-active .play-icon {
   transform: scale(1.14);
 }
 
@@ -778,6 +792,10 @@ h3 {
 }
 
 .youtube-card.is-previewing .youtube-thumb > img {
+  opacity: 0;
+}
+
+.video-card.is-previewing .video-thumb > img {
   opacity: 0;
 }
 
@@ -1321,7 +1339,8 @@ button:disabled {
     height: clamp(500px, 78vw, 650px);
   }
 
-  .coverflow-stage .youtube-card {
+  .coverflow-stage .youtube-card,
+  .coverflow-stage .video-card {
     width: clamp(210px, 40vw, 320px);
   }
 }
@@ -1337,7 +1356,8 @@ button:disabled {
     mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   }
 
-  .coverflow-stage .youtube-card {
+  .coverflow-stage .youtube-card,
+  .coverflow-stage .video-card {
     top: 50%;
     width: min(72vw, 285px);
     padding: 10px 10px 16px;
@@ -1355,7 +1375,9 @@ button:disabled {
 
 @media (prefers-reduced-motion: reduce) {
   .coverflow-stage .youtube-card,
-  .coverflow-stage .youtube-card.is-active {
+  .coverflow-stage .youtube-card.is-active,
+  .coverflow-stage .video-card,
+  .coverflow-stage .video-card.is-active {
     animation: none;
     transition: none;
   }
