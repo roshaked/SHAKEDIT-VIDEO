@@ -312,18 +312,22 @@ class VideoCoverflow {
       return;
     }
 
+    const link = card.matches("a[href]") ? card : card.querySelector("a[href]");
+    const clickedMedia = event.target.closest(".youtube-thumb, .video-thumb, .play-icon");
     const index = Number(card.dataset.index);
+
+    if (link && (index === this.activeIndex || clickedMedia)) {
+      event.preventDefault();
+      window.location.href = link.href;
+      return;
+    }
+
     if (index !== this.activeIndex) {
       event.preventDefault();
       this.pause();
       this.goTo(index);
       this.resume(900);
       return;
-    }
-
-    const link = card.matches("a[href]") ? card : card.querySelector("a[href]");
-    if (link && !event.target.closest("a[href]")) {
-      window.open(link.href, link.target || "_self", "noreferrer");
     }
   }
 }
