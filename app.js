@@ -133,7 +133,8 @@ class VideoCoverflow {
 
   measure() {
     const width = this.viewport?.clientWidth || 900;
-    this.cardStep = Math.min(260, Math.max(150, width * 0.24));
+    this.cardStep = Math.min(280, Math.max(150, width * 0.22));
+    this.layoutScale = Math.min(1, Math.max(0.72, width / 980));
   }
 
   normalize(index) {
@@ -180,23 +181,38 @@ class VideoCoverflow {
   }
 
   render(progress = this.activeIndex) {
+    const slots = [
+      { x: 0, y: 92, z: 150, rotate: 0, tilt: 0, scale: 1.1, opacity: 1, blur: 0 },
+      { x: 265, y: -92, z: 36, rotate: -16, tilt: 4, scale: 0.76, opacity: 0.82, blur: 0.15 },
+      { x: -305, y: -40, z: -18, rotate: 18, tilt: -5, scale: 0.7, opacity: 0.62, blur: 0.75 },
+      { x: 350, y: 205, z: -4, rotate: -12, tilt: -4, scale: 0.72, opacity: 0.74, blur: 0.45 },
+      { x: -330, y: 245, z: -12, rotate: 14, tilt: 5, scale: 0.74, opacity: 0.7, blur: 0.5 },
+      { x: 385, y: -265, z: -52, rotate: -22, tilt: 5, scale: 0.58, opacity: 0.5, blur: 1.25 },
+      { x: -390, y: -240, z: -64, rotate: 22, tilt: -5, scale: 0.56, opacity: 0.42, blur: 1.55 },
+      { x: 12, y: -292, z: -70, rotate: 0, tilt: 2, scale: 0.55, opacity: 0.36, blur: 1.8 },
+    ];
+
     this.cards.forEach((card, index) => {
       const distance = this.getShortestDistance(index, progress);
       const depth = Math.abs(distance);
-      const side = Math.sign(distance);
-      const x = side * (depth * this.cardStep + Math.max(0, depth - 1) * 42);
-      const z = 90 - depth * 92;
-      const y = depth * 12;
-      const rotate = Math.max(-42, Math.min(42, -distance * 30));
-      const scale = Math.max(0.58, 1 - depth * 0.13);
-      const opacity = Math.max(0.2, 1 - depth * 0.2);
-      const blur = depth > 1 ? Math.min(2.2, (depth - 1) * 0.7) : 0;
+      const slot = slots[Math.min(slots.length - 1, Math.round(depth))];
+      const side = Math.sign(distance) || 1;
+      const mirror = distance < 0 ? -1 : 1;
+      const x = depth < 0.5 ? slot.x : slot.x * mirror * this.layoutScale;
+      const y = slot.y * this.layoutScale;
+      const z = slot.z;
+      const rotate = depth < 0.5 ? slot.rotate : Math.abs(slot.rotate) * -side;
+      const tilt = depth < 0.5 ? slot.tilt : slot.tilt * mirror;
+      const scale = slot.scale;
+      const opacity = slot.opacity;
+      const blur = slot.blur;
       const isActive = index === this.activeIndex && Math.abs(progress - this.activeIndex) < 0.02;
 
       card.style.setProperty("--x", `${x}px`);
       card.style.setProperty("--y", `${y}px`);
       card.style.setProperty("--z", `${z}px`);
       card.style.setProperty("--rotate", `${rotate}deg`);
+      card.style.setProperty("--tilt", `${tilt}deg`);
       card.style.setProperty("--scale", String(scale));
       card.style.setProperty("--card-opacity", String(opacity));
       card.style.setProperty("--card-brightness", String(Math.max(0.55, 1 - depth * 0.12)));

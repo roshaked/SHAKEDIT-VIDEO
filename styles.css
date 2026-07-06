@@ -582,11 +582,11 @@ h3 {
 
 .coverflow-viewport {
   position: relative;
-  height: clamp(390px, 44vw, 560px);
+  height: clamp(560px, 58vw, 740px);
   overflow: hidden;
   cursor: grab;
-  perspective: 1100px;
-  perspective-origin: 50% 46%;
+  perspective: 1250px;
+  perspective-origin: 50% 48%;
   touch-action: pan-y;
   outline: none;
   mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
@@ -639,17 +639,18 @@ h3 {
 
 .coverflow-stage .youtube-card {
   position: absolute;
-  top: clamp(24px, 5vw, 58px);
+  top: 50%;
   left: 50%;
   z-index: calc(20 - var(--depth, 0));
-  width: clamp(270px, 32vw, 410px);
+  width: clamp(220px, 25vw, 360px);
   min-height: auto;
   outline: none;
   opacity: var(--card-opacity, 1);
   filter: brightness(var(--card-brightness, 1)) blur(var(--card-blur, 0));
   transform:
-    translate3d(calc(-50% + var(--x, 0px)), var(--y, 0px), var(--z, 0px))
+    translate3d(calc(-50% + var(--x, 0px)), calc(-50% + var(--y, 0px)), var(--z, 0px))
     rotateY(var(--rotate, 0deg))
+    rotateZ(var(--tilt, 0deg))
     scale(var(--scale, 1));
   transform-origin: center center;
   transform-style: preserve-3d;
@@ -676,6 +677,12 @@ h3 {
     0 0 34px rgba(37, 217, 255, 0.3),
     0 0 52px rgba(240, 45, 255, 0.16),
     0 22px 46px rgba(0, 0, 0, 0.48);
+}
+
+.coverflow-stage .youtube-card.is-active .youtube-thumb {
+  box-shadow:
+    inset 0 0 18px rgba(37, 217, 255, 0.22),
+    0 0 24px rgba(37, 217, 255, 0.2);
 }
 
 .coverflow-stage .youtube-card.is-active::before,
@@ -1305,11 +1312,11 @@ button:disabled {
   }
 
   .coverflow-viewport {
-    height: clamp(350px, 58vw, 470px);
+    height: clamp(500px, 78vw, 650px);
   }
 
   .coverflow-stage .youtube-card {
-    width: clamp(250px, 48vw, 360px);
+    width: clamp(210px, 40vw, 320px);
   }
 }
 
@@ -1320,13 +1327,13 @@ button:disabled {
   }
 
   .coverflow-viewport {
-    height: 350px;
+    height: 520px;
     mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   }
 
   .coverflow-stage .youtube-card {
-    top: 34px;
-    width: min(78vw, 310px);
+    top: 50%;
+    width: min(72vw, 285px);
     padding: 10px 10px 16px;
   }
 
