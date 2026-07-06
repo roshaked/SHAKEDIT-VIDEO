@@ -93,23 +93,12 @@
           <p class="eyebrow">YouTube</p>
           <h2>סרטונים לדוגמא</h2>
         </div>
-        <div class="youtube-showcase" aria-live="polite">
-          <div class="showcase-screen">
-            <img class="showcase-image" src="https://img.youtube.com/vi/4ftRvVR6EGg/hqdefault.jpg" alt="" />
-            <span class="play-icon" aria-hidden="true"></span>
-          </div>
-          <div class="showcase-copy">
-            <p class="eyebrow">Selected video</p>
-            <h3 class="showcase-title">פרסומת לסדנת גבינות</h3>
-            <p class="showcase-text">בחרו סרטון מהכרטיסים למטה כדי לראות אותו כאן בתצוגה גדולה.</p>
-            <a class="button primary showcase-link" href="https://youtu.be/4ftRvVR6EGg?si=T6ga_NgDQflP2yJN" target="_blank" rel="noreferrer">צפייה ביוטיוב</a>
-          </div>
+        <div class="youtube-marquee" aria-label="קרוסלת סרטונים לדוגמא">
+          <div class="video-marquee-row" data-direction="left" data-speed="12" aria-label="סרטונים לדוגמא - שורה ראשונה"></div>
+          <div class="video-marquee-row" data-direction="right" data-speed="16" aria-label="סרטונים לדוגמא - שורה שנייה"></div>
+          <div class="video-marquee-row" data-direction="left" data-speed="10" aria-label="סרטונים לדוגמא - שורה שלישית"></div>
         </div>
-        <div class="youtube-controls" aria-label="ניווט סרטונים לדוגמא">
-          <button class="youtube-control" type="button" data-youtube-dir="prev" aria-label="הסרטון הקודם">‹</button>
-          <button class="youtube-control" type="button" data-youtube-dir="next" aria-label="הסרטון הבא">›</button>
-        </div>
-        <div class="youtube-grid">
+        <div class="youtube-source" hidden>
           <a class="youtube-card" href="https://youtu.be/4ftRvVR6EGg?si=T6ga_NgDQflP2yJN" target="_blank" rel="noreferrer">
             <span class="youtube-thumb"><img src="https://img.youtube.com/vi/4ftRvVR6EGg/hqdefault.jpg" alt="" /><span class="play-icon" aria-hidden="true"></span></span>
             <strong>פרסומת לסדנת גבינות</strong>
