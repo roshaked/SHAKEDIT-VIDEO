@@ -93,10 +93,12 @@
           <p class="eyebrow">YouTube</p>
           <h2>סרטונים לדוגמא</h2>
         </div>
-        <div class="youtube-marquee" aria-label="קרוסלת סרטונים לדוגמא">
-          <div class="video-marquee-row" data-direction="left" data-speed="12" aria-label="סרטונים לדוגמא - שורה ראשונה"></div>
-          <div class="video-marquee-row" data-direction="right" data-speed="16" aria-label="סרטונים לדוגמא - שורה שנייה"></div>
-          <div class="video-marquee-row" data-direction="left" data-speed="10" aria-label="סרטונים לדוגמא - שורה שלישית"></div>
+        <div class="youtube-coverflow" aria-label="תצוגת Coverflow של סרטונים לדוגמא">
+          <button class="coverflow-arrow coverflow-prev" type="button" aria-label="הסרטון הקודם"></button>
+          <div class="coverflow-viewport" tabindex="0" role="region" aria-label="גלריית סרטונים תלת ממדית">
+            <div class="coverflow-stage" aria-live="polite"></div>
+          </div>
+          <button class="coverflow-arrow coverflow-next" type="button" aria-label="הסרטון הבא"></button>
         </div>
         <div class="youtube-source" hidden>
           <a class="youtube-card" href="https://youtu.be/4ftRvVR6EGg?si=T6ga_NgDQflP2yJN" target="_blank" rel="noreferrer">

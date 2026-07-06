@@ -197,7 +197,8 @@ video {
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(260px, 0.45fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(300px, 0.5fr) minmax(0, 0.88fr);
+  column-gap: clamp(12px, 2.5vw, 40px);
   align-items: center;
   min-height: 92vh;
   padding: 130px clamp(20px, 6vw, 86px) 74px;
@@ -232,7 +233,7 @@ video {
 .hero-content {
   max-width: 720px;
   grid-column: 2;
-  justify-self: end;
+  justify-self: start;
   direction: rtl;
   text-align: right;
 }
@@ -292,7 +293,7 @@ h3 {
 
 .hero-panel {
   grid-column: 1;
-  justify-self: start;
+  justify-self: end;
   display: grid;
   gap: 8px;
   width: min(100%, 330px);
@@ -558,14 +559,16 @@ h3 {
   line-height: 1.55;
 }
 
-.youtube-marquee {
+.youtube-coverflow {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: clamp(16px, 2vw, 24px);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 2vw, 22px);
   max-width: 1160px;
   margin: 0 auto;
-  padding: clamp(12px, 2vw, 22px);
+  padding: clamp(14px, 2.4vw, 28px);
   border: 1px solid rgba(37, 217, 255, 0.18);
   border-radius: 8px;
   background:
@@ -577,52 +580,118 @@ h3 {
   overflow: hidden;
 }
 
-.video-marquee-row {
+.coverflow-viewport {
   position: relative;
-  height: clamp(210px, 18vw, 258px);
+  height: clamp(390px, 44vw, 560px);
   overflow: hidden;
   cursor: grab;
+  perspective: 1100px;
+  perspective-origin: 50% 46%;
   touch-action: pan-y;
-  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  outline: none;
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
 
-.video-marquee-row:active {
+.coverflow-viewport:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 122, 47, 0.42), 0 0 34px rgba(37, 217, 255, 0.16);
+}
+
+.coverflow-viewport:active {
   cursor: grabbing;
 }
 
-.video-marquee-track,
-.video-card-group {
-  display: flex;
-  align-items: stretch;
-  gap: clamp(14px, 1.6vw, 22px);
-  width: max-content;
+.coverflow-viewport::after {
+  content: "";
+  position: absolute;
+  inset-inline: 15%;
+  bottom: 20px;
+  height: 76px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, rgba(37, 217, 255, 0.14), transparent 62%),
+    radial-gradient(ellipse at center, rgba(240, 45, 255, 0.12), transparent 70%);
+  filter: blur(18px);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
-.video-marquee-track {
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
+.coverflow-stage {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
 }
 
-.video-card-group {
-  flex: 0 0 auto;
-  padding-inline-end: clamp(14px, 1.6vw, 22px);
+.coverflow-stage::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  z-index: 0;
+  width: min(430px, 56vw);
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(37, 217, 255, 0.16), rgba(240, 45, 255, 0.05), transparent 70%);
+  filter: blur(14px);
+  opacity: 0.6;
+  transform: translate3d(-50%, 0, 0) scaleY(0.42);
+  pointer-events: none;
 }
 
-.video-marquee-row .youtube-card {
-  flex: 0 0 clamp(260px, 23vw, 320px);
+.coverflow-stage .youtube-card {
+  position: absolute;
+  top: clamp(24px, 5vw, 58px);
+  left: 50%;
+  z-index: calc(20 - var(--depth, 0));
+  width: clamp(270px, 32vw, 410px);
   min-height: auto;
   outline: none;
-  transform: translate3d(0, 0, 0);
+  opacity: var(--card-opacity, 1);
+  filter: brightness(var(--card-brightness, 1)) blur(var(--card-blur, 0));
+  transform:
+    translate3d(calc(-50% + var(--x, 0px)), var(--y, 0px), var(--z, 0px))
+    rotateY(var(--rotate, 0deg))
+    scale(var(--scale, 1));
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  -webkit-box-reflect: below 12px linear-gradient(transparent 62%, rgba(255, 255, 255, 0.12));
   transition:
-    transform 300ms ease,
+    transform 760ms cubic-bezier(0.18, 0.82, 0.22, 1),
+    opacity 760ms cubic-bezier(0.18, 0.82, 0.22, 1),
+    filter 760ms cubic-bezier(0.18, 0.82, 0.22, 1),
     border-color 300ms ease,
     box-shadow 300ms ease,
     background 300ms ease;
 }
 
-.video-marquee-row .youtube-card:hover,
-.video-marquee-row .youtube-card:focus-visible {
-  transform: translate3d(0, -4px, 0) scale(1.05);
+.coverflow-stage.is-dragging .youtube-card {
+  transition: border-color 300ms ease, box-shadow 300ms ease, background 300ms ease;
+}
+
+.coverflow-stage .youtube-card.is-active {
+  border-color: rgba(37, 217, 255, 0.86);
+  animation: activeCardFloat 4.8s ease-in-out infinite;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 34px rgba(37, 217, 255, 0.3),
+    0 0 52px rgba(240, 45, 255, 0.16),
+    0 22px 46px rgba(0, 0, 0, 0.48);
+}
+
+.coverflow-stage .youtube-card.is-active::before,
+.coverflow-stage .youtube-card:hover::before,
+.coverflow-stage .youtube-card:focus-visible::before {
+  opacity: 1;
+}
+
+.coverflow-stage .youtube-card:not(.is-active) {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 14px 30px rgba(0, 0, 0, 0.38);
+}
+
+.coverflow-stage .youtube-card:hover,
+.coverflow-stage .youtube-card:focus-visible {
   border-color: rgba(37, 217, 255, 0.82);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
@@ -630,15 +699,65 @@ h3 {
     0 14px 34px rgba(0, 0, 0, 0.34);
 }
 
-.video-marquee-row .youtube-card:focus-visible {
+.coverflow-stage .youtube-card:focus-visible {
   box-shadow:
     0 0 0 3px rgba(255, 122, 47, 0.44),
     0 0 34px rgba(37, 217, 255, 0.24);
 }
 
-.video-marquee-row .youtube-card:hover .play-icon,
-.video-marquee-row .youtube-card:focus-visible .play-icon {
+.coverflow-stage .youtube-card:hover .play-icon,
+.coverflow-stage .youtube-card:focus-visible .play-icon,
+.coverflow-stage .youtube-card.is-active .play-icon {
   transform: scale(1.14);
+}
+
+.coverflow-arrow {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(37, 217, 255, 0.46);
+  border-radius: 999px;
+  background: rgba(4, 8, 22, 0.72);
+  box-shadow: 0 0 20px rgba(37, 217, 255, 0.12);
+  cursor: pointer;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.coverflow-arrow::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-block-start: 2px solid #f8fbff;
+  border-inline-start: 2px solid #f8fbff;
+}
+
+.coverflow-prev::before {
+  transform: rotate(135deg);
+}
+
+.coverflow-next::before {
+  transform: rotate(-45deg);
+}
+
+.coverflow-arrow:hover,
+.coverflow-arrow:focus-visible {
+  border-color: rgba(37, 217, 255, 0.9);
+  box-shadow: 0 0 26px rgba(37, 217, 255, 0.28), 0 0 36px rgba(240, 45, 255, 0.12);
+  transform: translate3d(0, -2px, 0);
+}
+
+@keyframes activeCardFloat {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -6px;
+  }
 }
 
 .preview-frame {
@@ -1109,6 +1228,7 @@ button:disabled {
 
   .hero {
     grid-template-columns: 1fr;
+    column-gap: 0;
     min-height: auto;
     direction: rtl;
   }
@@ -1175,42 +1295,59 @@ button:disabled {
 }
 
 @media (max-width: 980px) {
-  .video-marquee-row {
-    height: clamp(205px, 28vw, 250px);
+  .youtube-coverflow {
+    grid-template-columns: 1fr;
+    padding: 14px;
   }
 
-  .video-marquee-row .youtube-card {
-    flex-basis: clamp(250px, 36vw, 310px);
+  .coverflow-arrow {
+    display: none;
+  }
+
+  .coverflow-viewport {
+    height: clamp(350px, 58vw, 470px);
+  }
+
+  .coverflow-stage .youtube-card {
+    width: clamp(250px, 48vw, 360px);
   }
 }
 
 @media (max-width: 720px) {
-  .youtube-marquee {
+  .youtube-coverflow {
     padding: 12px;
     background-size: auto, 34px 34px, 34px 34px;
   }
 
-  .video-marquee-row {
-    height: 225px;
+  .coverflow-viewport {
+    height: 350px;
+    mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   }
 
-  .video-marquee-row .youtube-card {
-    flex-basis: min(78vw, 290px);
+  .coverflow-stage .youtube-card {
+    top: 34px;
+    width: min(78vw, 310px);
+    padding: 10px 10px 16px;
+  }
+
+  .youtube-card strong {
+    font-size: 1rem;
+  }
+
+  .youtube-thumb .play-icon {
+    width: 46px;
+    height: 46px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .video-marquee-row {
-    overflow-x: auto;
-    mask-image: none;
-    scroll-snap-type: x mandatory;
+  .coverflow-stage .youtube-card,
+  .coverflow-stage .youtube-card.is-active {
+    animation: none;
+    transition: none;
   }
 
-  .video-marquee-track {
-    transform: none !important;
-  }
-
-  .video-marquee-row .youtube-card {
-    scroll-snap-align: center;
+  .coverflow-viewport {
+    scroll-behavior: auto;
   }
 }
