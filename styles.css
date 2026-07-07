@@ -1084,16 +1084,6 @@ figcaption {
   text-align: right;
 }
 
-.form-note {
-  margin: 0;
-  padding: 12px 14px;
-  border: 1px solid rgba(37, 217, 255, 0.48);
-  border-radius: 6px;
-  background: rgba(37, 217, 255, 0.08);
-  color: #dff8ff;
-  font-weight: 800;
-}
-
 label {
   display: grid;
   gap: 8px;
