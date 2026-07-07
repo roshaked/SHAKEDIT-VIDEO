@@ -116,10 +116,16 @@ video {
   color: #e8eefc;
 }
 
-.main-nav .nav-contact-link {
+.main-nav .nav-contact-group {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+}
+
+.main-nav .whatsapp-nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .main-nav a::after {
@@ -131,6 +137,10 @@ video {
   height: 2px;
   background: linear-gradient(90deg, var(--cyan), var(--pink));
   transition: width 180ms ease;
+}
+
+.main-nav .whatsapp-nav-link::after {
+  display: none;
 }
 
 .main-nav a:hover::after,
