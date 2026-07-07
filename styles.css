@@ -105,9 +105,9 @@ video {
 .main-nav {
   display: flex;
   justify-content: center;
-  gap: clamp(16px, 3vw, 38px);
-  font-size: 1.08rem;
-  font-weight: 700;
+  gap: clamp(14px, 2.6vw, 34px);
+  font-size: 1.24rem;
+  font-weight: 800;
   direction: rtl;
 }
 
