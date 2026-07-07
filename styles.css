@@ -1497,6 +1497,15 @@ button:disabled {
     top: 50%;
     width: min(78vw, 300px);
     padding: 10px 10px 16px;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .coverflow-stage .youtube-card strong,
+  .coverflow-stage .youtube-card small,
+  .coverflow-stage .video-card h3,
+  .coverflow-stage .video-card p {
+    text-align: center;
   }
 
   .youtube-card strong {
