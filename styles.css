@@ -742,10 +742,6 @@ h3 {
   pointer-events: auto;
 }
 
-.coverflow-stage.is-dragging .video-open-hitarea {
-  pointer-events: none;
-}
-
 .coverflow-arrow {
   position: relative;
   z-index: 3;

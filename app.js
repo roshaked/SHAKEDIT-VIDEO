@@ -104,20 +104,29 @@ class VideoCoverflow {
     this.cards = [];
 
     cards.forEach((card, index) => {
-      const clone = card.cloneNode(true);
+      const sourceLink = card.matches("a[href]") ? card : card.querySelector("a[href]");
+      const clone = card.matches("a[href]") ? document.createElement("article") : card.cloneNode(true);
+
+      if (card.matches("a[href]")) {
+        clone.className = card.className;
+        clone.innerHTML = card.innerHTML;
+      }
+
       const title = clone.querySelector("strong, h3")?.textContent?.trim() || "סרטון לדוגמא";
       const link = clone.matches("a[href]") ? clone : clone.querySelector("a[href]");
+      const href = sourceLink?.href || link?.href || "";
 
       clone.dataset.index = String(index);
-      clone.dataset.videoHref = link?.href || "";
+      clone.dataset.videoHref = href;
       clone.setAttribute("aria-label", `${title} - צפייה ביוטיוב`);
       clone.querySelector("img")?.setAttribute("draggable", "false");
 
-      const hitArea = document.createElement("span");
+      const hitArea = document.createElement("a");
       hitArea.className = "video-open-hitarea";
+      hitArea.href = href;
+      hitArea.target = "_blank";
+      hitArea.rel = "noreferrer";
       hitArea.setAttribute("aria-label", `פתיחת ${title} ביוטיוב`);
-      hitArea.setAttribute("role", "link");
-      hitArea.tabIndex = -1;
       clone.append(hitArea);
 
       this.stage.append(clone);
@@ -162,9 +171,7 @@ class VideoCoverflow {
     card.addEventListener("click", (event) => this.onCardClick(event, card));
     card.addEventListener("focus", () => this.goTo(Number(card.dataset.index)));
     hitArea.addEventListener("click", (event) => {
-      event.preventDefault();
       event.stopPropagation();
-      this.openVideo(card);
     });
     hitArea.addEventListener("pointerdown", (event) => {
       event.stopPropagation();
