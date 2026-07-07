@@ -1437,7 +1437,25 @@ button:disabled {
   }
 
   .coverflow-arrow {
-    display: none;
+    position: absolute;
+    top: 50%;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    transform: translate3d(0, -50%, 0);
+  }
+
+  .coverflow-prev {
+    right: 18px;
+  }
+
+  .coverflow-next {
+    left: 18px;
+  }
+
+  .coverflow-arrow:hover,
+  .coverflow-arrow:focus-visible {
+    transform: translate3d(0, calc(-50% - 2px), 0);
   }
 
   .coverflow-viewport {
@@ -1454,6 +1472,19 @@ button:disabled {
   .youtube-coverflow {
     padding: 12px;
     background-size: auto, 34px 34px, 34px 34px;
+  }
+
+  .coverflow-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .coverflow-prev {
+    right: 10px;
+  }
+
+  .coverflow-next {
+    left: 10px;
   }
 
   .coverflow-viewport {
