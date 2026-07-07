@@ -113,10 +113,11 @@ class VideoCoverflow {
       clone.setAttribute("aria-label", `${title} - צפייה ביוטיוב`);
       clone.querySelector("img")?.setAttribute("draggable", "false");
 
-      const hitArea = document.createElement("button");
+      const hitArea = document.createElement("span");
       hitArea.className = "video-open-hitarea";
-      hitArea.type = "button";
       hitArea.setAttribute("aria-label", `פתיחת ${title} ביוטיוב`);
+      hitArea.setAttribute("role", "link");
+      hitArea.tabIndex = -1;
       clone.append(hitArea);
 
       this.stage.append(clone);
@@ -164,6 +165,9 @@ class VideoCoverflow {
       event.preventDefault();
       event.stopPropagation();
       this.openVideo(card);
+    });
+    hitArea.addEventListener("pointerdown", (event) => {
+      event.stopPropagation();
     });
   }
 
@@ -305,6 +309,7 @@ class VideoCoverflow {
   }
 
   onPointerDown(event) {
+    if (event.target.closest(".video-open-hitarea")) return;
     if (event.button !== undefined && event.button !== 0) return;
     this.isDragging = true;
     this.hasDragged = false;
