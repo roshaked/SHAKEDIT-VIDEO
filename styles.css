@@ -22,11 +22,13 @@
 html {
   scroll-behavior: smooth;
   direction: rtl;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 14% 0%, rgba(240, 45, 255, 0.2), transparent 28rem),
     radial-gradient(circle at 86% 10%, rgba(37, 217, 255, 0.18), transparent 30rem),
@@ -43,6 +45,7 @@ a {
 
 img,
 video {
+  display: block;
   max-width: 100%;
 }
 
@@ -1241,6 +1244,8 @@ button:disabled {
 @media (max-width: 980px) {
   .site-header {
     grid-template-columns: auto auto;
+    gap: 18px;
+    padding: 14px clamp(14px, 4vw, 28px);
   }
 
   .main-nav,
@@ -1260,21 +1265,36 @@ button:disabled {
     right: 16px;
     display: grid;
     justify-content: stretch;
-    gap: 0;
+    gap: 2px;
     padding: 12px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: rgba(2, 4, 14, 0.96);
+    box-shadow: var(--shadow);
   }
 
-  .site-header.is-open .main-nav a {
+  .site-header.is-open .main-nav a,
+  .site-header.is-open .nav-contact-group {
     padding: 13px 8px;
+  }
+
+  .site-header.is-open .nav-contact-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .site-header.is-open .whatsapp-nav-link {
+    width: 34px;
+    min-height: 34px;
+    padding: 0;
   }
 
   .hero {
     grid-template-columns: 1fr;
     column-gap: 0;
     min-height: auto;
+    padding-block: 116px 56px;
     direction: rtl;
   }
 
@@ -1292,6 +1312,10 @@ button:disabled {
   .hero-panel {
     justify-self: start;
     margin-top: 34px;
+  }
+
+  .section {
+    padding-block: 58px;
   }
 
   .video-grid,
@@ -1312,12 +1336,31 @@ button:disabled {
 }
 
 @media (max-width: 720px) {
+  .brand {
+    min-width: 0;
+  }
+
+  .brand-logo {
+    width: clamp(148px, 44vw, 196px);
+  }
+
   .hero {
-    padding-top: 112px;
+    padding: 104px 18px 46px;
   }
 
   h1 {
-    font-size: clamp(2.7rem, 14vw, 4.8rem);
+    font-size: clamp(2.55rem, 13vw, 4.2rem);
+    line-height: 1;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .hero-copy,
+  .about-content p {
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
   .section-heading,
@@ -1326,6 +1369,10 @@ button:disabled {
   .site-footer {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 50px 18px;
   }
 
   .video-grid,
@@ -1342,6 +1389,44 @@ button:disabled {
 
   .hero-actions {
     display: grid;
+    gap: 12px;
+  }
+
+  .hero-actions .button,
+  .contact-form .button {
+    width: 100%;
+  }
+
+  .hero-panel {
+    width: 100%;
+    padding: 18px;
+    margin-top: 28px;
+  }
+
+  .about-photo {
+    max-width: min(100%, 330px);
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .filter-bar {
+    justify-content: stretch;
+  }
+
+  .chip {
+    flex: 1 1 120px;
+  }
+
+  .contact-form {
+    padding: 18px;
+  }
+
+  .site-footer {
+    justify-items: start;
+    gap: 18px;
   }
 }
 
@@ -1372,14 +1457,14 @@ button:disabled {
   }
 
   .coverflow-viewport {
-    height: 520px;
+    height: clamp(420px, 112vw, 520px);
     mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
   }
 
   .coverflow-stage .youtube-card,
   .coverflow-stage .video-card {
     top: 50%;
-    width: min(72vw, 285px);
+    width: min(78vw, 300px);
     padding: 10px 10px 16px;
   }
 
@@ -1390,6 +1475,63 @@ button:disabled {
   .youtube-thumb .play-icon {
     width: 46px;
     height: 46px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding-inline: 12px;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .site-header.is-open .main-nav {
+    left: 12px;
+    right: 12px;
+    max-height: calc(100vh - 86px);
+    overflow-y: auto;
+  }
+
+  .main-nav {
+    font-size: 1.08rem;
+  }
+
+  .hero-bg {
+    background:
+      linear-gradient(180deg, rgba(2, 3, 11, 0.92) 0%, rgba(2, 3, 11, 0.76) 45%, rgba(2, 3, 11, 0.48) 100%),
+      url("assets/hero-cyber-studio.png") 42% center / auto 118% no-repeat;
+  }
+
+  .hero-panel span {
+    font-size: 2.45rem;
+  }
+
+  .coverflow-viewport {
+    height: 430px;
+    perspective: 900px;
+  }
+
+  .coverflow-stage .youtube-card,
+  .coverflow-stage .video-card {
+    width: min(84vw, 286px);
+  }
+
+  .youtube-card strong,
+  .video-card h3 {
+    font-size: 0.98rem;
+  }
+
+  .play-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  input,
+  textarea {
+    padding: 12px;
   }
 }
 
