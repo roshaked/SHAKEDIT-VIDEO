@@ -303,21 +303,25 @@
           <h2>יש לכם רעיון לסרטון?</h2>
           <p>השאירו פרטים ונחזור אליכם עם כיוון יצירתי, פורמט וחבילת עבודה מתאימה.</p>
         </div>
-        <form class="contact-form" action="#" method="post">
-          <p class="form-note">פרטי קשר וטופס שליחה יעודכנו בהמשך.</p>
+        <form class="contact-form" action="mailto:roshaked@gmail.com" method="post" enctype="text/plain">
+          <p class="form-note">מלאו את הפרטים ולחצו שלח. אפליקציית המייל תיפתח עם ההודעה מוכנה לשליחה.</p>
           <label>
             שם
-            <input name="name" type="text" autocomplete="name" placeholder="השם שלכם" disabled />
+            <input name="name" type="text" autocomplete="name" placeholder="השם שלכם" required />
           </label>
           <label>
             אימייל
-            <input name="email" type="email" autocomplete="email" placeholder="האימייל שלכם" disabled />
+            <input name="email" type="email" autocomplete="email" placeholder="האימייל שלכם" required />
+          </label>
+          <label>
+            טלפון
+            <input name="phone" type="tel" autocomplete="tel" placeholder="מספר טלפון לחזרה" />
           </label>
           <label>
             מה תרצו ליצור?
-            <textarea name="message" rows="4" placeholder="ספרו בקצרה על הרעיון שלכם" disabled></textarea>
+            <textarea name="message" rows="5" placeholder="ספרו בקצרה על הרעיון שלכם" required></textarea>
           </label>
-          <button class="button primary" type="button" disabled>טופס יעודכן בקרוב</button>
+          <button class="button primary" type="submit">שלח</button>
         </form>
       </section>
     </main>
