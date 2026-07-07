@@ -76,14 +76,14 @@ video {
 .brand {
   display: inline-flex;
   align-items: center;
-  min-width: 172px;
+  min-width: 190px;
   text-align: left;
   direction: ltr;
 }
 
 .brand-logo {
   display: block;
-  width: clamp(154px, 17vw, 236px);
+  width: clamp(172px, 19vw, 264px);
   height: auto;
   object-fit: contain;
 }
