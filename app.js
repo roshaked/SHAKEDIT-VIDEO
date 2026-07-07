@@ -43,7 +43,7 @@ function getYoutubeId(url) {
   try {
     const parsed = new URL(url);
     if (parsed.hostname.includes("youtu.be")) return parsed.pathname.slice(1);
-    if (parsed.pathname.includes("/shorts/")) return parsed.pathname.split("/shorts/")[1]?.split("/")[0];
+    if (parsed.pathname.includes("/shorts/")) return parsed.pathname.split("/shorts/")[1]?.split("/")[0] || "";
     return parsed.searchParams.get("v") || "";
   } catch {
     return "";
@@ -60,6 +60,7 @@ function createPreviewFrame(card) {
   frame.className = "preview-frame";
   frame.title = "תצוגה מקדימה של סרטון";
   frame.allow = "autoplay; encrypted-media; picture-in-picture";
+  frame.tabIndex = -1;
   frame.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&playsinline=1&modestbranding=1&rel=0`;
   thumb.append(frame);
   card.classList.add("is-previewing");
@@ -105,12 +106,22 @@ class VideoCoverflow {
     cards.forEach((card, index) => {
       const clone = card.cloneNode(true);
       const title = clone.querySelector("strong, h3")?.textContent?.trim() || "סרטון לדוגמא";
+      const link = clone.matches("a[href]") ? clone : clone.querySelector("a[href]");
+
       clone.dataset.index = String(index);
+      clone.dataset.videoHref = link?.href || "";
       clone.setAttribute("aria-label", `${title} - צפייה ביוטיוב`);
       clone.querySelector("img")?.setAttribute("draggable", "false");
+
+      const hitArea = document.createElement("button");
+      hitArea.className = "video-open-hitarea";
+      hitArea.type = "button";
+      hitArea.setAttribute("aria-label", `פתיחת ${title} ביוטיוב`);
+      clone.append(hitArea);
+
       this.stage.append(clone);
       this.cards.push(clone);
-      this.bindCardEvents(clone);
+      this.bindCardEvents(clone, hitArea);
     });
   }
 
@@ -146,9 +157,14 @@ class VideoCoverflow {
     });
   }
 
-  bindCardEvents(card) {
+  bindCardEvents(card, hitArea) {
     card.addEventListener("click", (event) => this.onCardClick(event, card));
     card.addEventListener("focus", () => this.goTo(Number(card.dataset.index)));
+    hitArea.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.openVideo(card);
+    });
   }
 
   measure() {
@@ -248,6 +264,11 @@ class VideoCoverflow {
     });
   }
 
+  openVideo(card) {
+    const href = card.dataset.videoHref || card.href || card.querySelector("a[href]")?.href;
+    if (href) window.location.assign(href);
+  }
+
   onKeydown(event) {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
@@ -261,6 +282,11 @@ class VideoCoverflow {
       this.pause();
       this.goTo(this.activeIndex + 1);
       this.resume(1000);
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.openVideo(this.cards[this.activeIndex]);
     }
   }
 
@@ -312,16 +338,7 @@ class VideoCoverflow {
       return;
     }
 
-    const link = card.matches("a[href]") ? card : card.querySelector("a[href]");
-    const clickedMedia = event.target.closest(".youtube-thumb, .video-thumb, .play-icon");
     const index = Number(card.dataset.index);
-
-    if (link && (index === this.activeIndex || clickedMedia)) {
-      event.preventDefault();
-      window.location.href = link.href;
-      return;
-    }
-
     if (index !== this.activeIndex) {
       event.preventDefault();
       this.pause();
@@ -329,6 +346,9 @@ class VideoCoverflow {
       this.resume(900);
       return;
     }
+
+    event.preventDefault();
+    this.openVideo(card);
   }
 }
 
