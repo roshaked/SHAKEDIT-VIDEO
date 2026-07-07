@@ -105,33 +105,30 @@ class VideoCoverflow {
 
     cards.forEach((card, index) => {
       const sourceLink = card.matches("a[href]") ? card : card.querySelector("a[href]");
-      const clone = card.matches("a[href]") ? document.createElement("article") : card.cloneNode(true);
-
-      if (card.matches("a[href]")) {
-        clone.className = card.className;
-        clone.innerHTML = card.innerHTML;
-      }
-
+      const clone = document.createElement("a");
+      clone.className = card.className;
+      clone.innerHTML = card.innerHTML;
       const title = clone.querySelector("strong, h3")?.textContent?.trim() || "סרטון לדוגמא";
-      const link = clone.matches("a[href]") ? clone : clone.querySelector("a[href]");
-      const href = sourceLink?.href || link?.href || "";
+      const href = sourceLink?.href || "";
+
+      clone.querySelectorAll("a[href]").forEach((nestedLink) => {
+        const span = document.createElement("span");
+        span.className = nestedLink.className;
+        span.innerHTML = nestedLink.innerHTML;
+        nestedLink.replaceWith(span);
+      });
 
       clone.dataset.index = String(index);
       clone.dataset.videoHref = href;
+      clone.href = href;
+      clone.target = "_blank";
+      clone.rel = "noreferrer";
       clone.setAttribute("aria-label", `${title} - צפייה ביוטיוב`);
       clone.querySelector("img")?.setAttribute("draggable", "false");
 
-      const hitArea = document.createElement("a");
-      hitArea.className = "video-open-hitarea";
-      hitArea.href = href;
-      hitArea.target = "_blank";
-      hitArea.rel = "noreferrer";
-      hitArea.setAttribute("aria-label", `פתיחת ${title} ביוטיוב`);
-      clone.append(hitArea);
-
       this.stage.append(clone);
       this.cards.push(clone);
-      this.bindCardEvents(clone, hitArea);
+      this.bindCardEvents(clone);
     });
   }
 
@@ -167,15 +164,9 @@ class VideoCoverflow {
     });
   }
 
-  bindCardEvents(card, hitArea) {
+  bindCardEvents(card) {
     card.addEventListener("click", (event) => this.onCardClick(event, card));
     card.addEventListener("focus", () => this.goTo(Number(card.dataset.index)));
-    hitArea.addEventListener("click", (event) => {
-      event.stopPropagation();
-    });
-    hitArea.addEventListener("pointerdown", (event) => {
-      event.stopPropagation();
-    });
   }
 
   measure() {
@@ -316,7 +307,7 @@ class VideoCoverflow {
   }
 
   onPointerDown(event) {
-    if (event.target.closest(".video-open-hitarea")) return;
+    if (event.target.closest(".coverflow-stage a[href]")) return;
     if (event.button !== undefined && event.button !== 0) return;
     this.isDragging = true;
     this.hasDragged = false;
@@ -349,18 +340,6 @@ class VideoCoverflow {
       this.hasDragged = false;
       return;
     }
-
-    const index = Number(card.dataset.index);
-    if (index !== this.activeIndex) {
-      event.preventDefault();
-      this.pause();
-      this.goTo(index);
-      this.resume(900);
-      return;
-    }
-
-    event.preventDefault();
-    this.openVideo(card);
   }
 }
 
