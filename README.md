@@ -77,3 +77,12 @@ action="#"
 3. בחרו Deploy from a branch.
 4. בחרו את הענף `main` ואת התיקייה `/root`.
 5. שמרו, והאתר יפורסם אחרי כדקה.
+
+## אתר תרגול למבחן
+
+אתר התרגול במבוא לשיווק ופרסום נמצא בתיקייה `marketing-practice`.
+לאחר הפעלת GitHub Pages, ניתן להגיע אליו דרך:
+
+```text
+https://ROSHAKED.github.io/SHAKEDIT-VIDEO/marketing-practice/
+```

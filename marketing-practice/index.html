@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>תרגול מבוא לשיווק ופרסום</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <img src="assets/study-hero.png" alt="" class="hero__image">
+    <div class="hero__shade"></div>
+    <nav class="topbar" aria-label="ניווט ראשי">
+      <a href="#practice">תרגול</a>
+      <a href="#ask">שאל את החומר</a>
+      <a href="#terms">מושגים</a>
+      <a href="#scenarios">תרחישים</a>
+      <button id="resetProgress" class="ghost-button" type="button">איפוס התקדמות</button>
+    </nav>
+    <section class="hero__content">
+      <p class="eyebrow">מבוא לשיווק ופרסום</p>
+      <h1>אתר תרגול למבחן על פי המצגות של ערן</h1>
+      <p>
+        שאלות אמריקאיות, כרטיסיות מושגים, תרחישי קמפיין, ומעקב התקדמות.
+        התרגול מבוסס על מצגת חלק א' ומצגת חלק ב', וכל מושג באנגלית מופיע עם פירוש עברי צמוד.
+      </p>
+      <div class="hero__actions">
+        <a class="primary-button" href="#practice">להתחיל תרגול</a>
+        <a class="secondary-button" href="#ask">לשאול שאלה על החומר</a>
+        <a class="secondary-button" href="#terms">לעבור על מילון מושגים</a>
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section class="stats-band" aria-label="התקדמות">
+      <div>
+        <span id="answeredCount">0</span>
+        <small>שאלות נענו</small>
+      </div>
+      <div>
+        <span id="accuracyRate">0%</span>
+        <small>דיוק</small>
+      </div>
+      <div>
+        <span id="streakCount">0</span>
+        <small>רצף תשובות נכונות</small>
+      </div>
+      <div>
+        <span id="masteredCount">0</span>
+        <small>מושגים שסומנו כידועים</small>
+      </div>
+    </section>
+
+    <section id="ask" class="section ask-section">
+      <div class="section-heading">
+        <p class="eyebrow">שאל את החומר</p>
+        <h2>הקלידו שאלה ותקבלו תשובה מפורטת לפי המצגות</h2>
+      </div>
+      <div class="ask-panel">
+        <label for="globalAskInput">שאלה כללית על החומר</label>
+        <textarea id="globalAskInput" rows="4" placeholder="לדוגמה: מה ההבדל בין מיצוב לבידול? איך משתמשים ב-SWOT? מה זה Reach ו-Frequency?"></textarea>
+        <div class="ask-actions">
+          <button id="globalAskButton" class="primary-button" type="button">קבלת תשובה</button>
+          <button id="globalAskClear" class="secondary-button" type="button">ניקוי</button>
+        </div>
+        <div id="globalAskAnswer" class="ask-answer" aria-live="polite">
+          <p>כתבו שאלה על מושג, כלי ניתוח, תמהיל השיווק, פרסום, מדיה או מדידה. התשובה תתבסס על מאגר הידע של האתר והמצגות.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="practice" class="section practice-layout">
+      <div class="section-heading">
+        <p class="eyebrow">תרגול אמריקאי</p>
+        <h2>בחרו נושא וקצב, ואז ענו שאלה שאלה</h2>
+      </div>
+
+      <aside class="control-panel" aria-label="אפשרויות תרגול">
+        <label>
+          נושא
+          <select id="topicSelect"></select>
+        </label>
+        <label>
+          רמת קושי
+          <select id="difficultySelect">
+            <option value="all">הכל</option>
+            <option value="קל">קל</option>
+            <option value="בינוני">בינוני</option>
+            <option value="מתקדם">מתקדם</option>
+          </select>
+        </label>
+        <label class="toggle">
+          <input id="shuffleToggle" type="checkbox" checked>
+          ערבוב תשובות
+        </label>
+        <button id="newQuestion" class="primary-button" type="button">שאלה חדשה</button>
+      </aside>
+
+      <article class="quiz-panel" aria-live="polite">
+        <div class="quiz-meta">
+          <span id="questionTopic"></span>
+          <span id="questionDifficulty"></span>
+        </div>
+        <h3 id="questionText"></h3>
+        <div id="answers" class="answers"></div>
+        <div id="feedback" class="feedback" hidden></div>
+        <div class="quiz-actions">
+          <button id="hintButton" class="secondary-button" type="button">רמז</button>
+          <button id="nextButton" class="primary-button" type="button">הבא</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="terms" class="section split-section">
+      <div>
+        <div class="section-heading">
+          <p class="eyebrow">מילון מהיר</p>
+          <h2>כרטיסיות מושגים באנגלית עם פירוש בעברית</h2>
+        </div>
+        <div class="term-toolbar">
+          <input id="termSearch" type="search" placeholder="חיפוש מושג או פירוש">
+          <button id="randomTerm" class="secondary-button" type="button">מושג אקראי</button>
+        </div>
+        <div id="termGrid" class="term-grid"></div>
+      </div>
+
+      <aside class="flashcard">
+        <p class="eyebrow">כרטיסיית חזרה</p>
+        <h3 id="flashTerm"></h3>
+        <p id="flashMeaning"></p>
+        <button id="markKnown" class="primary-button" type="button">סימון כידוע</button>
+      </aside>
+    </section>
+
+    <section id="scenarios" class="section scenario-section">
+      <div class="section-heading">
+        <p class="eyebrow">יישום</p>
+        <h2>תרחישי קמפיין קצרים</h2>
+      </div>
+      <div id="scenarioGrid" class="scenario-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>נבנה כאתר סטטי לשיתוף ותרגול, ומבוסס על מצגות הקורס: חלק א' וחלק ב'. אפשר להרחיב את מאגר השאלות לפי סיכומים נוספים.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
