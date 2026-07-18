@@ -9,16 +9,36 @@ const modalVideo = modal?.querySelector("video");
 const modalTitle = modal?.querySelector(".video-placeholder strong");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const backdropVideo = document.querySelector(".ai-video-backdrop video");
+const soundToggle = document.querySelector(".sound-toggle");
+const soundToggleText = soundToggle?.querySelector(".sound-toggle-text");
 const dynamicMotion = !prefersReducedMotion.matches;
 
 if (prefersReducedMotion.matches) {
   backdropVideo?.pause();
 }
 
+function setBackdropSound(isOn) {
+  if (!backdropVideo || !soundToggle) return;
+  backdropVideo.muted = !isOn;
+  soundToggle.classList.toggle("is-on", isOn);
+  soundToggle.setAttribute("aria-pressed", String(isOn));
+  soundToggle.setAttribute("aria-label", isOn ? "השתקת סאונד רקע" : "הפעלת סאונד רקע");
+  if (soundToggleText) soundToggleText.textContent = isOn ? "השתק סאונד" : "הפעל סאונד";
+}
+
+soundToggle?.addEventListener("click", () => {
+  const shouldEnableSound = backdropVideo?.muted ?? true;
+  if (backdropVideo) {
+    backdropVideo.play().catch(() => {});
+  }
+  setBackdropSound(shouldEnableSound);
+});
+
 prefersReducedMotion.addEventListener?.("change", () => {
   if (!backdropVideo) return;
   if (prefersReducedMotion.matches) {
     backdropVideo.pause();
+    setBackdropSound(false);
   } else {
     backdropVideo.play().catch(() => {});
   }
