@@ -12,6 +12,9 @@
   --line: rgba(37, 217, 255, 0.38);
   --radius: 8px;
   --shadow: 0 0 28px rgba(240, 45, 255, 0.24), 0 0 42px rgba(37, 217, 255, 0.16);
+  --pointer-x: 50%;
+  --pointer-y: 24%;
+  --scroll-progress: 0;
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
@@ -26,6 +29,8 @@ html {
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
@@ -36,6 +41,42 @@ body {
   color: var(--text);
   direction: rtl;
   text-align: right;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: 0;
+  opacity: 0.46;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(37, 217, 255, 0.18), transparent 18rem),
+    radial-gradient(circle at 86% 28%, rgba(240, 45, 255, 0.14), transparent 22rem),
+    linear-gradient(115deg, transparent 0 28%, rgba(37, 217, 255, 0.12) 42%, transparent 56% 100%);
+  background-size: 120% 120%, 130% 130%, 180% 180%;
+  animation: electricField 18s ease-in-out infinite alternate;
+}
+
+body::after {
+  z-index: 2;
+  opacity: 0;
+  background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(37, 217, 255, 0.18), rgba(240, 45, 255, 0.08) 12rem, transparent 24rem);
+  transition: opacity 220ms ease;
+}
+
+body.has-pointer::after {
+  opacity: 1;
+}
+
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -74,6 +115,13 @@ video {
   border-bottom: 1px solid rgba(37, 217, 255, 0.18);
   backdrop-filter: blur(16px);
   direction: rtl;
+  transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease, padding 220ms ease;
+}
+
+.site-header.is-scrolled {
+  background: linear-gradient(180deg, rgba(2, 3, 11, 0.98), rgba(3, 7, 20, 0.74));
+  border-color: rgba(37, 217, 255, 0.34);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.32), 0 0 28px rgba(37, 217, 255, 0.1);
 }
 
 .brand {
@@ -233,6 +281,18 @@ video {
   direction: ltr;
 }
 
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.18;
+  background: linear-gradient(115deg, transparent 0 34%, rgba(37, 217, 255, 0.42) 48%, transparent 62% 100%);
+  transform: translate3d(calc(var(--scroll-progress) * -80px), 0, 0);
+  animation: heroScan 7.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -240,6 +300,8 @@ video {
     linear-gradient(270deg, rgba(2, 3, 11, 0.96) 0%, rgba(2, 3, 11, 0.78) 38%, rgba(2, 3, 11, 0.16) 100%),
     url("assets/hero-cyber-studio.png") right center / auto 150% no-repeat;
   filter: saturate(1.15) contrast(1.08);
+  transform: translate3d(calc(var(--scroll-progress) * -28px), 0, 0) scale(calc(1.02 + var(--scroll-progress) * 0.02));
+  transform-origin: center;
   z-index: -3;
 }
 
@@ -251,7 +313,8 @@ video {
     linear-gradient(rgba(37, 217, 255, 0.2) 1px, transparent 1px),
     linear-gradient(90deg, rgba(240, 45, 255, 0.2) 1px, transparent 1px);
   background-size: 66px 66px;
-  transform: perspective(500px) rotateX(62deg);
+  background-position: 0 calc(var(--scroll-progress) * 90px);
+  transform: perspective(500px) rotateX(62deg) translate3d(0, calc(var(--scroll-progress) * 24px), 0);
   transform-origin: top;
   opacity: 0.42;
 }
@@ -330,6 +393,7 @@ h3 {
   box-shadow: var(--shadow);
   direction: rtl;
   text-align: right;
+  transform: translate3d(0, calc(var(--scroll-progress) * 20px), 0);
 }
 
 .hero-panel span {
@@ -350,8 +414,19 @@ h3 {
 }
 
 .section {
+  position: relative;
   padding: 70px clamp(20px, 6vw, 86px);
   border-bottom: 1px solid rgba(37, 217, 255, 0.2);
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset-inline: clamp(18px, 6vw, 86px);
+  top: 0;
+  height: 1px;
+  opacity: 0.48;
+  background: linear-gradient(90deg, transparent, rgba(37, 217, 255, 0.55), rgba(240, 45, 255, 0.42), transparent);
 }
 
 .youtube-section {
@@ -807,6 +882,42 @@ h3 {
   }
 }
 
+@keyframes electricField {
+  0% {
+    background-position: 0% 0%, 100% 20%, 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    background-position: 24% 16%, 74% 42%, 100% 50%;
+    filter: hue-rotate(14deg);
+  }
+}
+
+@keyframes heroScan {
+  0%,
+  100% {
+    opacity: 0.08;
+    transform: translate3d(34%, 0, 0);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: translate3d(-34%, 0, 0);
+  }
+}
+
+.motion-ready .reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) scale(0.985);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motion-ready .reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
 .preview-frame {
   position: absolute;
   inset: 0;
@@ -888,10 +999,41 @@ h3 {
 .video-card,
 .service-grid article,
 .testimonial-grid figure {
+  position: relative;
+  overflow: hidden;
   border: 1px solid rgba(37, 217, 255, 0.34);
   border-radius: var(--radius);
   background: linear-gradient(180deg, rgba(9, 16, 40, 0.86), rgba(3, 6, 18, 0.9));
   box-shadow: 0 0 22px rgba(37, 217, 255, 0.08);
+  transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.video-card::after,
+.service-grid article::after,
+.testimonial-grid figure::after {
+  content: "";
+  position: absolute;
+  inset: -40% -60%;
+  opacity: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.16) 48%, transparent 62%);
+  transform: translate3d(48%, 0, 0);
+  transition: opacity 220ms ease, transform 640ms ease;
+  pointer-events: none;
+}
+
+.video-card:hover,
+.service-grid article:hover,
+.testimonial-grid figure:hover {
+  border-color: rgba(37, 217, 255, 0.62);
+  box-shadow: 0 0 28px rgba(37, 217, 255, 0.16), 0 0 42px rgba(240, 45, 255, 0.08);
+  transform: translate3d(0, -4px, 0);
+}
+
+.video-card:hover::after,
+.service-grid article:hover::after,
+.testimonial-grid figure:hover::after {
+  opacity: 1;
+  transform: translate3d(-48%, 0, 0);
 }
 
 .video-card {
@@ -1576,6 +1718,21 @@ button:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hero-bg,
+  .hero-grid,
+  .hero-panel {
+    transform: none;
+  }
+
   .coverflow-stage .youtube-card,
   .coverflow-stage .youtube-card.is-active,
   .coverflow-stage .video-card,

@@ -7,6 +7,45 @@ const closeModal = document.querySelector(".modal-close");
 const modalPlayer = document.querySelector(".modal-player");
 const modalVideo = modal?.querySelector("video");
 const modalTitle = modal?.querySelector(".video-placeholder strong");
+const dynamicMotion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function updateScrollEffects() {
+  const progress = Math.min(1, window.scrollY / Math.max(1, window.innerHeight));
+  document.documentElement.style.setProperty("--scroll-progress", progress.toFixed(3));
+  header?.classList.toggle("is-scrolled", window.scrollY > 18);
+}
+
+updateScrollEffects();
+window.addEventListener("scroll", updateScrollEffects, { passive: true });
+
+if (dynamicMotion) {
+  document.body.classList.add("motion-ready");
+
+  window.addEventListener("pointermove", (event) => {
+    document.body.classList.add("has-pointer");
+    document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
+    document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
+  }, { passive: true });
+
+  window.addEventListener("pointerleave", () => {
+    document.body.classList.remove("has-pointer");
+  });
+
+  const revealItems = document.querySelectorAll(".section-heading, .about-photo, .about-content, .youtube-coverflow, .video-card, .service-grid article, .process-list li, .testimonial-grid figure, .contact-section > *");
+
+  revealItems.forEach((item) => item.classList.add("reveal"));
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
+
+  revealItems.forEach((item) => revealObserver.observe(item));
+}
 
 menuToggle?.addEventListener("click", () => {
   const isOpen = header.classList.toggle("is-open");
