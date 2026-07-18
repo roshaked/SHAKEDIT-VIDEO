@@ -22,6 +22,12 @@
   box-sizing: border-box;
 }
 
+img,
+video,
+iframe {
+  max-width: 100%;
+}
+
 html {
   scroll-behavior: smooth;
   direction: rtl;
@@ -41,6 +47,7 @@ body {
   color: var(--text);
   direction: rtl;
   text-align: right;
+  overflow-wrap: break-word;
 }
 
 body::before,
@@ -699,6 +706,7 @@ h3 {
   backdrop-filter: blur(16px) saturate(1.1);
   direction: rtl;
   text-align: right;
+  overflow-wrap: break-word;
 }
 
 .about-content h2 {
@@ -1671,6 +1679,7 @@ button:disabled {
   .sound-toggle {
     left: 12px;
     bottom: 12px;
+    max-width: calc(100vw - 24px);
     min-height: 40px;
     padding: 0 12px;
     font-size: 0.92rem;
@@ -1711,6 +1720,11 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
+  .section-heading {
+    justify-items: center;
+    text-align: center;
+  }
+
   .section {
     padding: 50px 18px;
   }
@@ -1747,6 +1761,10 @@ button:disabled {
     max-width: min(100%, 330px);
   }
 
+  .about-content {
+    padding: 22px 18px;
+  }
+
   .about-stats {
     display: grid;
     grid-template-columns: 1fr;
@@ -1762,6 +1780,13 @@ button:disabled {
 
   .contact-form {
     padding: 18px;
+    min-width: 0;
+  }
+
+  .contact-form label,
+  input,
+  textarea {
+    min-width: 0;
   }
 
   .site-footer {
@@ -1848,6 +1873,18 @@ button:disabled {
     text-align: center;
   }
 
+  .coverflow-stage .youtube-card small,
+  .coverflow-stage .video-card p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .coverflow-stage .tags {
+    justify-content: center;
+  }
+
   .youtube-card strong {
     font-size: 1rem;
   }
@@ -1879,6 +1916,11 @@ button:disabled {
     font-size: 1.08rem;
   }
 
+  .site-header.is-open .main-nav a,
+  .site-header.is-open .nav-contact-group {
+    padding-inline: 10px;
+  }
+
   .hero-bg {
     background:
       linear-gradient(180deg, rgba(2, 3, 11, 0.92) 0%, rgba(2, 3, 11, 0.76) 45%, rgba(2, 3, 11, 0.48) 100%),
@@ -1890,7 +1932,7 @@ button:disabled {
   }
 
   .coverflow-viewport {
-    height: 430px;
+    height: 410px;
     perspective: 900px;
   }
 
@@ -1904,6 +1946,16 @@ button:disabled {
     font-size: 0.98rem;
   }
 
+  .youtube-card small,
+  .video-card p {
+    font-size: 0.88rem;
+  }
+
+  .tags span {
+    padding: 3px 7px;
+    font-size: 0.72rem;
+  }
+
   .play-icon {
     width: 50px;
     height: 50px;
@@ -1912,6 +1964,32 @@ button:disabled {
   input,
   textarea {
     padding: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-logo {
+    width: 136px;
+  }
+
+  .sound-toggle {
+    width: 42px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sound-toggle-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .coverflow-stage .youtube-card,
+  .coverflow-stage .video-card {
+    width: min(86vw, 270px);
   }
 }
 
