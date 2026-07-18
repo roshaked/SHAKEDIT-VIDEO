@@ -365,7 +365,7 @@ class VideoCoverflow {
       card.setAttribute("aria-current", isActive ? "true" : "false");
       card.tabIndex = depth <= (this.isCompactMobile ? 1.5 : 2.5) ? 0 : -1;
 
-      if (isActive && !prefersReducedMotion.matches) {
+      if (isActive && !prefersReducedMotion.matches && !this.isCompactMobile) {
         createPreviewFrame(card);
       } else {
         removePreviewFrame(card);
