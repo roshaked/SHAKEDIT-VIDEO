@@ -12,6 +12,7 @@ const backdropVideo = document.querySelector(".ai-video-backdrop video");
 const soundToggle = document.querySelector(".sound-toggle");
 const soundToggleText = soundToggle?.querySelector(".sound-toggle-text");
 const dynamicMotion = !prefersReducedMotion.matches;
+let backdropSoundEnabled = !prefersReducedMotion.matches;
 
 if (prefersReducedMotion.matches) {
   backdropVideo?.pause();
@@ -19,6 +20,7 @@ if (prefersReducedMotion.matches) {
 
 function setBackdropSound(isOn) {
   if (!backdropVideo || !soundToggle) return;
+  backdropSoundEnabled = isOn;
   backdropVideo.muted = !isOn;
   soundToggle.classList.toggle("is-on", isOn);
   soundToggle.setAttribute("aria-pressed", String(isOn));
@@ -26,11 +28,30 @@ function setBackdropSound(isOn) {
   if (soundToggleText) soundToggleText.textContent = isOn ? "השתק סאונד" : "הפעל סאונד";
 }
 
+function playBackdropVideo() {
+  if (!backdropVideo || prefersReducedMotion.matches) return;
+  backdropVideo.play().catch(() => {});
+}
+
+setBackdropSound(backdropSoundEnabled);
+playBackdropVideo();
+
+["pointerdown", "keydown", "touchstart"].forEach((eventName) => {
+  window.addEventListener(
+    eventName,
+    () => {
+      if (backdropSoundEnabled) {
+        setBackdropSound(true);
+        playBackdropVideo();
+      }
+    },
+    { once: true, passive: true }
+  );
+});
+
 soundToggle?.addEventListener("click", () => {
-  const shouldEnableSound = backdropVideo?.muted ?? true;
-  if (backdropVideo) {
-    backdropVideo.play().catch(() => {});
-  }
+  const shouldEnableSound = !backdropSoundEnabled;
+  if (shouldEnableSound) playBackdropVideo();
   setBackdropSound(shouldEnableSound);
 });
 
@@ -40,7 +61,8 @@ prefersReducedMotion.addEventListener?.("change", () => {
     backdropVideo.pause();
     setBackdropSound(false);
   } else {
-    backdropVideo.play().catch(() => {});
+    setBackdropSound(true);
+    playBackdropVideo();
   }
 });
 
