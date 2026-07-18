@@ -163,6 +163,8 @@ class VideoCoverflow {
     this.wheelTimer = undefined;
     this.cardStep = 230;
     this.layoutScale = 1;
+    this.isSampleCoverflow = Boolean(root.closest("#youtube"));
+    this.isCompactMobile = false;
 
     this.mount(cards);
     this.bindEvents();
@@ -245,8 +247,9 @@ class VideoCoverflow {
 
   measure() {
     const width = this.viewport?.clientWidth || 900;
-    this.cardStep = Math.min(280, Math.max(150, width * 0.22));
-    this.layoutScale = Math.min(1, Math.max(0.72, width / 980));
+    this.isCompactMobile = this.isSampleCoverflow && width <= 520;
+    this.cardStep = this.isCompactMobile ? Math.min(190, Math.max(136, width * 0.46)) : Math.min(280, Math.max(150, width * 0.22));
+    this.layoutScale = this.isCompactMobile ? Math.min(1, Math.max(0.82, width / 420)) : Math.min(1, Math.max(0.72, width / 980));
   }
 
   normalize(index) {
@@ -294,7 +297,7 @@ class VideoCoverflow {
   }
 
   render(progress = this.activeIndex) {
-    const slots = [
+    const desktopSlots = [
       { x: 0, y: 92, z: 150, rotate: 0, tilt: 0, scale: 1.1, opacity: 1, blur: 0 },
       { x: 265, y: -92, z: 36, rotate: -16, tilt: 4, scale: 0.76, opacity: 0.82, blur: 0.15 },
       { x: -305, y: -40, z: -18, rotate: 18, tilt: -5, scale: 0.7, opacity: 0.62, blur: 0.75 },
@@ -304,6 +307,13 @@ class VideoCoverflow {
       { x: -390, y: -240, z: -64, rotate: 22, tilt: -5, scale: 0.56, opacity: 0.42, blur: 1.55 },
       { x: 12, y: -292, z: -70, rotate: 0, tilt: 2, scale: 0.55, opacity: 0.36, blur: 1.8 },
     ];
+    const mobileSampleSlots = [
+      { x: 0, y: 34, z: 120, rotate: 0, tilt: 0, scale: 1.02, opacity: 1, blur: 0 },
+      { x: 118, y: -112, z: 10, rotate: -18, tilt: 4, scale: 0.58, opacity: 0.5, blur: 0.65 },
+      { x: -122, y: -108, z: -22, rotate: 18, tilt: -4, scale: 0.54, opacity: 0.34, blur: 1.05 },
+      { x: 0, y: 188, z: -58, rotate: 0, tilt: 0, scale: 0.48, opacity: 0.16, blur: 1.8 },
+    ];
+    const slots = this.isCompactMobile ? mobileSampleSlots : desktopSlots;
 
     this.cards.forEach((card, index) => {
       const distance = this.getShortestDistance(index, progress);
@@ -329,8 +339,9 @@ class VideoCoverflow {
       card.style.setProperty("--card-blur", `${slot.blur}px`);
       card.style.setProperty("--depth", String(Math.round(depth)));
       card.classList.toggle("is-active", isActive);
+      card.classList.toggle("is-distant", this.isCompactMobile && depth > 2.5);
       card.setAttribute("aria-current", isActive ? "true" : "false");
-      card.tabIndex = depth <= 2.5 ? 0 : -1;
+      card.tabIndex = depth <= (this.isCompactMobile ? 1.5 : 2.5) ? 0 : -1;
 
       if (isActive && !prefersReducedMotion.matches) {
         createPreviewFrame(card);
