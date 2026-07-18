@@ -31,7 +31,7 @@ if (dynamicMotion) {
     document.body.classList.remove("has-pointer");
   });
 
-  const revealItems = document.querySelectorAll(".section-heading, .about-photo, .about-content, .youtube-coverflow, .video-card, .service-grid article, .process-list li, .testimonial-grid figure, .contact-section > *");
+  const revealItems = document.querySelectorAll(".section-heading, .about-photo, .about-content, .youtube-coverflow, .service-grid article, .process-list li, .testimonial-grid figure, .contact-section > *");
 
   revealItems.forEach((item) => item.classList.add("reveal"));
 
@@ -146,6 +146,7 @@ class VideoCoverflow {
       const sourceLink = card.matches("a[href]") ? card : card.querySelector("a[href]");
       const clone = document.createElement("a");
       clone.className = card.className;
+      clone.classList.remove("reveal", "is-visible");
       clone.innerHTML = card.innerHTML;
       const title = clone.querySelector("strong, h3")?.textContent?.trim() || "סרטון לדוגמא";
       const href = sourceLink?.href || "";

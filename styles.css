@@ -1008,7 +1008,6 @@ h3 {
   transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
 }
 
-.video-card::after,
 .service-grid article::after,
 .testimonial-grid figure::after {
   content: "";
@@ -1021,7 +1020,6 @@ h3 {
   pointer-events: none;
 }
 
-.video-card:hover,
 .service-grid article:hover,
 .testimonial-grid figure:hover {
   border-color: rgba(37, 217, 255, 0.62);
@@ -1029,7 +1027,6 @@ h3 {
   transform: translate3d(0, -4px, 0);
 }
 
-.video-card:hover::after,
 .service-grid article:hover::after,
 .testimonial-grid figure:hover::after {
   opacity: 1;
