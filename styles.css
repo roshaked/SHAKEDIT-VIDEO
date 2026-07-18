@@ -79,6 +79,93 @@ main,
   z-index: 1;
 }
 
+.ai-video-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.58;
+  mix-blend-mode: screen;
+}
+
+.ai-video-backdrop::before,
+.ai-video-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: -12%;
+}
+
+.ai-video-backdrop::before {
+  opacity: 0.42;
+  background:
+    linear-gradient(105deg, transparent 0 18%, rgba(37, 217, 255, 0.16) 26%, transparent 34% 100%),
+    linear-gradient(76deg, transparent 0 42%, rgba(240, 45, 255, 0.12) 50%, transparent 58% 100%),
+    repeating-linear-gradient(90deg, transparent 0 72px, rgba(37, 217, 255, 0.09) 73px 74px, transparent 75px 142px),
+    repeating-linear-gradient(0deg, transparent 0 86px, rgba(240, 45, 255, 0.07) 87px 88px, transparent 89px 168px);
+  background-size: 160% 160%, 140% 140%, 100% 100%, 100% 100%;
+  filter: blur(0.2px);
+  transform: translate3d(0, 0, 0);
+  animation: aiDataSweep 22s linear infinite;
+}
+
+.ai-video-backdrop::after {
+  opacity: 0.34;
+  background:
+    radial-gradient(circle at 18% 26%, rgba(37, 217, 255, 0.42) 0 1px, transparent 2px),
+    radial-gradient(circle at 74% 36%, rgba(240, 45, 255, 0.34) 0 1px, transparent 2px),
+    radial-gradient(circle at 42% 82%, rgba(92, 255, 196, 0.3) 0 1px, transparent 2px),
+    linear-gradient(115deg, transparent 20%, rgba(37, 217, 255, 0.1), transparent 52%);
+  background-size: 46px 46px, 68px 68px, 82px 82px, 180% 180%;
+  mask-image: radial-gradient(ellipse at center, #000 0 62%, transparent 82%);
+  animation: aiMatrixDrift 28s linear infinite;
+}
+
+.ai-video-backdrop span {
+  position: absolute;
+  width: 34vmax;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(37, 217, 255, 0.55), rgba(240, 45, 255, 0.38), transparent);
+  box-shadow: 0 0 18px rgba(37, 217, 255, 0.26);
+  transform-origin: center;
+  animation: neuralStream 16s ease-in-out infinite;
+}
+
+.ai-video-backdrop span:nth-child(1) {
+  top: 18%;
+  left: -8%;
+  animation-delay: -2s;
+  transform: rotate(12deg);
+}
+
+.ai-video-backdrop span:nth-child(2) {
+  top: 35%;
+  right: -10%;
+  animation-delay: -6s;
+  transform: rotate(-18deg);
+}
+
+.ai-video-backdrop span:nth-child(3) {
+  top: 58%;
+  left: 12%;
+  animation-delay: -10s;
+  transform: rotate(26deg);
+}
+
+.ai-video-backdrop span:nth-child(4) {
+  top: 78%;
+  right: 8%;
+  animation-delay: -14s;
+  transform: rotate(-11deg);
+}
+
+.ai-video-backdrop span:nth-child(5) {
+  top: 46%;
+  left: 38%;
+  animation-delay: -18s;
+  transform: rotate(4deg);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -907,6 +994,51 @@ h3 {
   }
 }
 
+@keyframes aiDataSweep {
+  0% {
+    background-position: 0% 50%, 100% 50%, 0 0, 0 0;
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+
+  100% {
+    background-position: 120% 50%, -40% 50%, 80px 0, 0 120px;
+    transform: translate3d(1.5%, 1%, 0) scale(1.02);
+  }
+}
+
+@keyframes aiMatrixDrift {
+  0% {
+    background-position: 0 0, 0 0, 0 0, 0% 50%;
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    background-position: 92px 138px, -136px 68px, 82px -164px, 100% 50%;
+    transform: translate3d(0, -2%, 0);
+  }
+}
+
+@keyframes neuralStream {
+  0%,
+  100% {
+    opacity: 0.16;
+    translate: -8% 0;
+    scale: 0.86 1;
+  }
+
+  45% {
+    opacity: 0.62;
+    translate: 12% 0;
+    scale: 1.08 1;
+  }
+
+  70% {
+    opacity: 0.28;
+    translate: 22% 0;
+    scale: 0.96 1;
+  }
+}
+
 .motion-ready .reveal {
   opacity: 0;
   transform: translate3d(0, 34px, 0) scale(0.985);
@@ -1482,6 +1614,14 @@ button:disabled {
 }
 
 @media (max-width: 720px) {
+  .ai-video-backdrop {
+    opacity: 0.42;
+  }
+
+  .ai-video-backdrop span {
+    width: 52vmax;
+  }
+
   .brand {
     min-width: 0;
   }
@@ -1733,8 +1873,16 @@ button:disabled {
 
   .hero-bg,
   .hero-grid,
-  .hero-panel {
+  .hero-panel,
+  .ai-video-backdrop::before,
+  .ai-video-backdrop::after,
+  .ai-video-backdrop span {
     transform: none;
+    animation: none;
+  }
+
+  .ai-video-backdrop {
+    opacity: 0.28;
   }
 
   .coverflow-stage .youtube-card,
