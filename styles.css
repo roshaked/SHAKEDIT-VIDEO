@@ -85,8 +85,8 @@ main,
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.58;
-  mix-blend-mode: screen;
+  background: #02030b;
+  opacity: 1;
 }
 
 .ai-video-backdrop::before,
@@ -96,9 +96,23 @@ main,
   inset: -12%;
 }
 
+.ai-video-backdrop video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.48;
+  filter: brightness(0.72) saturate(1.22) contrast(1.08);
+  transform: scale(1.03);
+}
+
 .ai-video-backdrop::before {
-  opacity: 0.42;
+  z-index: 1;
+  opacity: 0.58;
   background:
+    linear-gradient(180deg, rgba(2, 3, 11, 0.38), rgba(2, 3, 11, 0.78)),
+    radial-gradient(circle at 50% 42%, transparent 0 34%, rgba(2, 3, 11, 0.42) 72%),
     linear-gradient(105deg, transparent 0 18%, rgba(37, 217, 255, 0.16) 26%, transparent 34% 100%),
     linear-gradient(76deg, transparent 0 42%, rgba(240, 45, 255, 0.12) 50%, transparent 58% 100%),
     repeating-linear-gradient(90deg, transparent 0 72px, rgba(37, 217, 255, 0.09) 73px 74px, transparent 75px 142px),
@@ -110,7 +124,8 @@ main,
 }
 
 .ai-video-backdrop::after {
-  opacity: 0.34;
+  z-index: 2;
+  opacity: 0.28;
   background:
     radial-gradient(circle at 18% 26%, rgba(37, 217, 255, 0.42) 0 1px, transparent 2px),
     radial-gradient(circle at 74% 36%, rgba(240, 45, 255, 0.34) 0 1px, transparent 2px),
@@ -119,51 +134,6 @@ main,
   background-size: 46px 46px, 68px 68px, 82px 82px, 180% 180%;
   mask-image: radial-gradient(ellipse at center, #000 0 62%, transparent 82%);
   animation: aiMatrixDrift 28s linear infinite;
-}
-
-.ai-video-backdrop span {
-  position: absolute;
-  width: 34vmax;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(37, 217, 255, 0.55), rgba(240, 45, 255, 0.38), transparent);
-  box-shadow: 0 0 18px rgba(37, 217, 255, 0.26);
-  transform-origin: center;
-  animation: neuralStream 16s ease-in-out infinite;
-}
-
-.ai-video-backdrop span:nth-child(1) {
-  top: 18%;
-  left: -8%;
-  animation-delay: -2s;
-  transform: rotate(12deg);
-}
-
-.ai-video-backdrop span:nth-child(2) {
-  top: 35%;
-  right: -10%;
-  animation-delay: -6s;
-  transform: rotate(-18deg);
-}
-
-.ai-video-backdrop span:nth-child(3) {
-  top: 58%;
-  left: 12%;
-  animation-delay: -10s;
-  transform: rotate(26deg);
-}
-
-.ai-video-backdrop span:nth-child(4) {
-  top: 78%;
-  right: 8%;
-  animation-delay: -14s;
-  transform: rotate(-11deg);
-}
-
-.ai-video-backdrop span:nth-child(5) {
-  top: 46%;
-  left: 38%;
-  animation-delay: -18s;
-  transform: rotate(4deg);
 }
 
 a {
@@ -1018,27 +988,6 @@ h3 {
   }
 }
 
-@keyframes neuralStream {
-  0%,
-  100% {
-    opacity: 0.16;
-    translate: -8% 0;
-    scale: 0.86 1;
-  }
-
-  45% {
-    opacity: 0.62;
-    translate: 12% 0;
-    scale: 1.08 1;
-  }
-
-  70% {
-    opacity: 0.28;
-    translate: 22% 0;
-    scale: 0.96 1;
-  }
-}
-
 .motion-ready .reveal {
   opacity: 0;
   transform: translate3d(0, 34px, 0) scale(0.985);
@@ -1615,11 +1564,7 @@ button:disabled {
 
 @media (max-width: 720px) {
   .ai-video-backdrop {
-    opacity: 0.42;
-  }
-
-  .ai-video-backdrop span {
-    width: 52vmax;
+    opacity: 0.86;
   }
 
   .brand {
@@ -1875,14 +1820,17 @@ button:disabled {
   .hero-grid,
   .hero-panel,
   .ai-video-backdrop::before,
-  .ai-video-backdrop::after,
-  .ai-video-backdrop span {
+  .ai-video-backdrop::after {
     transform: none;
     animation: none;
   }
 
   .ai-video-backdrop {
-    opacity: 0.28;
+    opacity: 0.72;
+  }
+
+  .ai-video-backdrop video {
+    opacity: 0.32;
   }
 
   .coverflow-stage .youtube-card,

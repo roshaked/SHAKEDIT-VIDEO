@@ -7,7 +7,22 @@ const closeModal = document.querySelector(".modal-close");
 const modalPlayer = document.querySelector(".modal-player");
 const modalVideo = modal?.querySelector("video");
 const modalTitle = modal?.querySelector(".video-placeholder strong");
-const dynamicMotion = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const backdropVideo = document.querySelector(".ai-video-backdrop video");
+const dynamicMotion = !prefersReducedMotion.matches;
+
+if (prefersReducedMotion.matches) {
+  backdropVideo?.pause();
+}
+
+prefersReducedMotion.addEventListener?.("change", () => {
+  if (!backdropVideo) return;
+  if (prefersReducedMotion.matches) {
+    backdropVideo.pause();
+  } else {
+    backdropVideo.play().catch(() => {});
+  }
+});
 
 function updateScrollEffects() {
   const progress = Math.min(1, window.scrollY / Math.max(1, window.innerHeight));
@@ -71,7 +86,6 @@ filterButtons.forEach((button) => {
   });
 });
 
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const youtubeSource = document.querySelector(".youtube-source");
 const youtubeCoverflowRoot = document.querySelector(".youtube-coverflow:not(.work-coverflow)");
 const workCoverflowRoot = document.querySelector(".work-coverflow");
