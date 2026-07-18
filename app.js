@@ -31,7 +31,7 @@ if (dynamicMotion) {
     document.body.classList.remove("has-pointer");
   });
 
-  const revealItems = document.querySelectorAll(".section-heading, .about-photo, .about-content, .youtube-coverflow, .service-grid article, .process-list li, .testimonial-grid figure, .contact-section > *");
+  const revealItems = document.querySelectorAll(".section-heading, .about-photo, .about-content, .service-grid article, .process-list li, .testimonial-grid figure, .contact-section > *");
 
   revealItems.forEach((item) => item.classList.add("reveal"));
 

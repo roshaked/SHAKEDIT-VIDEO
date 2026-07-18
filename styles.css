@@ -918,6 +918,13 @@ h3 {
   transform: translate3d(0, 0, 0) scale(1);
 }
 
+.motion-ready .youtube-coverflow.reveal,
+.motion-ready .youtube-coverflow.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
 .preview-frame {
   position: absolute;
   inset: 0;
