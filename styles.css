@@ -469,6 +469,40 @@ video {
   text-align: right;
 }
 
+.hero-hook {
+  position: absolute;
+  left: 50%;
+  top: 51%;
+  z-index: 1;
+  width: min(44vw, 620px);
+  margin: 0;
+  padding: 14px 20px 16px;
+  border: 1px solid rgba(37, 217, 255, 0.42);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(2, 6, 18, 0.72), rgba(15, 18, 48, 0.46)),
+    linear-gradient(90deg, rgba(37, 217, 255, 0.14), rgba(240, 45, 255, 0.12));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 0 28px rgba(37, 217, 255, 0.18),
+    0 0 44px rgba(240, 45, 255, 0.1);
+  color: #f8fbff;
+  font-size: clamp(1.05rem, 2.1vw, 2rem);
+  font-weight: 900;
+  line-height: 1.28;
+  text-align: center;
+  text-shadow: 0 0 16px rgba(37, 217, 255, 0.6), 0 0 22px rgba(0, 0, 0, 0.82);
+  transform: translate3d(-50%, -50%, 0);
+  animation: hookPulse 2.6s ease-in-out infinite;
+  backdrop-filter: blur(14px) saturate(1.18);
+}
+
+.hero-hook span {
+  display: block;
+  color: #64efff;
+  text-shadow: 0 0 18px rgba(37, 217, 255, 0.82), 0 0 28px rgba(240, 45, 255, 0.4);
+}
+
 .eyebrow {
   margin: 0 0 10px;
   color: var(--cyan);
@@ -1073,6 +1107,25 @@ h3 {
   }
 }
 
+@keyframes hookPulse {
+  0%,
+  100% {
+    opacity: 0.9;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 0 22px rgba(37, 217, 255, 0.16),
+      0 0 34px rgba(240, 45, 255, 0.08);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 0 34px rgba(37, 217, 255, 0.36),
+      0 0 58px rgba(240, 45, 255, 0.22);
+  }
+}
+
 @keyframes aiDataSweep {
   0% {
     background-position: 0% 50%, 100% 50%, 0 0, 0 0;
@@ -1641,11 +1694,28 @@ button:disabled {
   }
 
   .hero-content,
+  .hero-hook,
   .hero-panel {
     grid-column: auto;
   }
 
+  .hero-content {
+    order: 1;
+  }
+
+  .hero-hook {
+    position: relative;
+    left: auto;
+    top: auto;
+    order: 2;
+    justify-self: end;
+    width: min(100%, 520px);
+    margin: 24px 0 0;
+    transform: none;
+  }
+
   .hero-panel {
+    order: 3;
     justify-self: start;
     margin-top: 34px;
   }
@@ -1710,6 +1780,13 @@ button:disabled {
   .about-content p {
     font-size: 1rem;
     line-height: 1.7;
+  }
+
+  .hero-hook {
+    justify-self: stretch;
+    margin-top: 22px;
+    padding: 12px 14px 14px;
+    font-size: clamp(1rem, 5vw, 1.35rem);
   }
 
   .section-heading,
@@ -2083,6 +2160,10 @@ button:disabled {
   .ai-video-backdrop::before,
   .ai-video-backdrop::after {
     transform: none;
+    animation: none;
+  }
+
+  .hero-hook {
     animation: none;
   }
 
