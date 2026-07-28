@@ -577,42 +577,95 @@ h3 {
   top: 52%;
   z-index: 2;
   width: min(33vw, 620px);
-  overflow: hidden;
-  border: 1px solid rgba(37, 217, 255, 0.58);
-  border-radius: 8px;
-  background: rgba(2, 6, 18, 0.82);
+  padding: 8px;
+  overflow: visible;
+  isolation: isolate;
+  border: 1px solid rgba(119, 229, 255, 0.84);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(7, 20, 43, 0.82), rgba(2, 6, 18, 0.92)),
+    radial-gradient(circle at 50% 100%, rgba(37, 217, 255, 0.32), transparent 52%);
   box-shadow:
-    inset 0 0 22px rgba(37, 217, 255, 0.18),
-    0 0 30px rgba(37, 217, 255, 0.2),
-    0 0 52px rgba(240, 45, 255, 0.12);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+    inset 0 0 26px rgba(37, 217, 255, 0.22),
+    0 0 18px rgba(119, 229, 255, 0.56),
+    0 0 48px rgba(37, 217, 255, 0.32),
+    0 0 84px rgba(240, 45, 255, 0.16);
   transform: translate3d(-50%, -50%, 0);
 }
 
 .hero-main-video::before {
   content: "";
   position: absolute;
-  inset: -1px;
-  z-index: 1;
+  left: 50%;
+  bottom: -48px;
+  z-index: -1;
+  width: 102%;
+  height: 78px;
   pointer-events: none;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: inherit;
+  background:
+    radial-gradient(ellipse at center, rgba(37, 217, 255, 0.38) 0 13%, transparent 15% 100%),
+    radial-gradient(ellipse at center, transparent 0 44%, rgba(37, 217, 255, 0.78) 46% 49%, transparent 51% 100%),
+    radial-gradient(ellipse at center, transparent 0 64%, rgba(119, 229, 255, 0.54) 66% 68%, transparent 70% 100%);
+  filter: blur(0.2px) drop-shadow(0 0 18px rgba(37, 217, 255, 0.62));
+  opacity: 0.86;
+  transform: translate3d(-50%, 0, 0) perspective(520px) rotateX(64deg);
 }
 
 .hero-main-video::after {
   content: "";
   position: absolute;
-  inset: 0;
-  z-index: 2;
+  inset: 8px;
+  z-index: 3;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 0 72%, rgba(2, 6, 18, 0.48));
+  border-radius: 9px;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.22), transparent 28% 100%),
+    linear-gradient(180deg, transparent 0 72%, rgba(2, 6, 18, 0.42));
   mix-blend-mode: screen;
 }
 
 .hero-main-video video {
+  position: relative;
+  z-index: 1;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  border-radius: 9px;
   filter: saturate(1.12) contrast(1.06) brightness(0.94);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.hero-video-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  width: clamp(48px, 5vw, 72px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  border: 1px solid rgba(119, 229, 255, 0.68);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(2, 6, 18, 0.68) 0 58%, rgba(37, 217, 255, 0.26) 59% 100%);
+  box-shadow:
+    inset 0 0 18px rgba(37, 217, 255, 0.28),
+    0 0 24px rgba(37, 217, 255, 0.42),
+    0 0 42px rgba(119, 229, 255, 0.24);
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.hero-video-play::before {
+  content: "";
+  position: absolute;
+  left: 54%;
+  top: 50%;
+  width: 22%;
+  height: 28%;
+  background: rgba(255, 255, 255, 0.94);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.72));
+  transform: translate3d(-50%, -50%, 0);
 }
 
 .hero-panel span {
