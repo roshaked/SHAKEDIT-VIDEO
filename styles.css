@@ -584,6 +584,39 @@ h3 {
   transform: translate3d(0, calc(var(--scroll-progress) * 20px), 0);
 }
 
+.hero-inline-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(37, 217, 255, 0.5);
+  border-radius: 6px;
+  background: #050816;
+  box-shadow:
+    inset 0 0 22px rgba(37, 217, 255, 0.18),
+    0 0 28px rgba(37, 217, 255, 0.16),
+    0 0 42px rgba(240, 45, 255, 0.08);
+}
+
+.hero-inline-video::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 0 68%, rgba(2, 6, 18, 0.58)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 24px);
+  mix-blend-mode: screen;
+}
+
+.hero-inline-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.14) contrast(1.06) brightness(0.9);
+}
+
 .hero-panel span {
   color: var(--orange);
   font-size: 3rem;
@@ -1848,6 +1881,10 @@ button:disabled {
     width: 100%;
     padding: 18px;
     margin-top: 28px;
+  }
+
+  .hero-inline-video {
+    max-height: 190px;
   }
 
   .about-photo {
