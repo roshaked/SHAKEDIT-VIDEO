@@ -955,6 +955,7 @@ h3 {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(10px, 2vw, 22px);
+  width: min(100%, 1160px);
   max-width: 1160px;
   margin: 0 auto;
   padding: clamp(14px, 2.4vw, 28px);
@@ -971,6 +972,8 @@ h3 {
 
 .coverflow-viewport {
   position: relative;
+  width: 100%;
+  min-width: 0;
   height: clamp(560px, 58vw, 740px);
   overflow: hidden;
   cursor: grab;
@@ -2081,9 +2084,39 @@ button:disabled {
   filter: none;
 }
 
+.youtube-coverflow.reveal,
+.youtube-coverflow.reveal.is-visible {
+  transform: none;
+}
+
 .coverflow-stage .youtube-card,
 .coverflow-stage .video-card {
   visibility: visible;
+}
+
+.youtube-coverflow.is-mounted .coverflow-stage .youtube-card.is-active,
+.youtube-coverflow.is-mounted .coverflow-stage .video-card.is-active {
+  display: grid;
+}
+
+.youtube-coverflow:not(.is-mounted) {
+  display: none;
+}
+
+.youtube-source:not([hidden]),
+.work-source:not([hidden]) {
+  display: grid;
+}
+
+.youtube-source:not([hidden]) {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+  max-width: 1160px;
+  margin: 24px auto 0;
+}
+
+.work-source:not([hidden]) {
+  margin-top: 24px;
 }
 
 @keyframes cinematicReveal {

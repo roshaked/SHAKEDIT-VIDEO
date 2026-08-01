@@ -205,6 +205,7 @@ class VideoCoverflow {
     this.bindEvents();
     this.measure();
     this.render();
+    this.root.classList.add("is-mounted");
     this.startAutoplay();
   }
 
@@ -463,10 +464,12 @@ let workCoverflow;
 
 if (youtubeCoverflowRoot && sourceCards.length) {
   new VideoCoverflow(youtubeCoverflowRoot, sourceCards);
+  youtubeSource.hidden = true;
 }
 
 if (workCoverflowRoot && workSourceCards.length) {
   workCoverflow = new VideoCoverflow(workCoverflowRoot, workSourceCards);
+  document.querySelector(".work-source").hidden = true;
   window.setWorkFilter = (filter = "all") => {
     const filteredCards = filter === "all"
       ? workSourceCards
