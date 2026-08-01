@@ -146,6 +146,7 @@ const youtubeCoverflowRoot = document.querySelector(".youtube-coverflow:not(.wor
 const workCoverflowRoot = document.querySelector(".work-coverflow");
 const sourceCards = [...youtubeSource?.querySelectorAll(".youtube-card") ?? []];
 const workSourceCards = [...document.querySelectorAll(".work-source .video-card")];
+const staticMobileGallery = window.matchMedia("(max-width: 720px)");
 
 function getYoutubeId(url) {
   try {
@@ -462,12 +463,12 @@ class VideoCoverflow {
 
 let workCoverflow;
 
-if (youtubeCoverflowRoot && sourceCards.length) {
+if (!staticMobileGallery.matches && youtubeCoverflowRoot && sourceCards.length) {
   new VideoCoverflow(youtubeCoverflowRoot, sourceCards);
   youtubeSource.hidden = true;
 }
 
-if (workCoverflowRoot && workSourceCards.length) {
+if (!staticMobileGallery.matches && workCoverflowRoot && workSourceCards.length) {
   workCoverflow = new VideoCoverflow(workCoverflowRoot, workSourceCards);
   document.querySelector(".work-source").hidden = true;
   window.setWorkFilter = (filter = "all") => {

@@ -2470,6 +2470,58 @@ button:disabled {
 
 @media (max-width: 720px) {
   .youtube-coverflow {
+    display: none;
+  }
+
+  .youtube-source[hidden],
+  .work-source[hidden] {
+    display: grid;
+  }
+
+  .youtube-source,
+  .work-source {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 22px;
+  }
+
+  .youtube-source .youtube-card,
+  .work-source .video-card {
+    min-height: auto;
+    opacity: 1;
+    filter: none;
+    transform: none;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .youtube-source .youtube-thumb,
+  .work-source .video-thumb {
+    width: 100%;
+    min-height: 172px;
+  }
+
+  .youtube-source .youtube-thumb img,
+  .work-source .video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+  }
+
+  .youtube-source .youtube-card strong,
+  .youtube-source .youtube-card small,
+  .work-source .video-card h3,
+  .work-source .video-card p {
+    text-align: center;
+  }
+
+  .work-source .tags {
+    justify-content: center;
+  }
+
+  .youtube-coverflow {
     padding: 12px;
     background-size: auto, 34px 34px, 34px 34px;
   }
