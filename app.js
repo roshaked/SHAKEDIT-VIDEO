@@ -12,6 +12,18 @@ const backdropVideo = document.querySelector(".ai-video-backdrop video");
 const soundToggle = document.querySelector(".sound-toggle");
 const soundToggleText = soundToggle?.querySelector(".sound-toggle-text");
 const dynamicMotion = !prefersReducedMotion.matches;
+const navLinks = [...document.querySelectorAll(".main-nav a[href^='#']")];
+const pageSections = [...document.querySelectorAll("main > section[id]")];
+const processSection = document.querySelector(".process-section");
+const processList = document.querySelector(".process-list");
+const processItems = [...document.querySelectorAll(".process-list li")];
+
+document.querySelectorAll("img").forEach((image) => {
+  if (!image.closest(".brand, .hero, .about-photo")) {
+    image.loading = "lazy";
+  }
+  image.decoding = "async";
+});
 
 if (prefersReducedMotion.matches) {
   backdropVideo?.pause();
@@ -45,9 +57,32 @@ prefersReducedMotion.addEventListener?.("change", () => {
 });
 
 function updateScrollEffects() {
-  const progress = Math.min(1, window.scrollY / Math.max(1, window.innerHeight));
-  document.documentElement.style.setProperty("--scroll-progress", progress.toFixed(3));
+  const heroProgress = Math.min(1, window.scrollY / Math.max(1, window.innerHeight));
+  const pageProgress = Math.min(1, window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight));
+  document.documentElement.style.setProperty("--scroll-progress", heroProgress.toFixed(3));
+  document.documentElement.style.setProperty("--page-progress", pageProgress.toFixed(4));
   header?.classList.toggle("is-scrolled", window.scrollY > 18);
+
+  let activeId = pageSections[0]?.id || "";
+  pageSections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= window.innerHeight * 0.42 && rect.bottom >= window.innerHeight * 0.28) {
+      activeId = section.id;
+    }
+  });
+
+  navLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
+  });
+
+  if (processSection && processList && processItems.length) {
+    const rect = processSection.getBoundingClientRect();
+    const range = Math.max(1, rect.height - window.innerHeight * 0.45);
+    const progress = Math.min(1, Math.max(0, (window.innerHeight * 0.5 - rect.top) / range));
+    const activeIndex = Math.min(processItems.length - 1, Math.max(0, Math.floor(progress * processItems.length)));
+    processList.style.setProperty("--process-progress", progress.toFixed(3));
+    processItems.forEach((item, index) => item.classList.toggle("is-active", index === activeIndex));
+  }
 }
 
 updateScrollEffects();
@@ -66,7 +101,7 @@ if (dynamicMotion) {
     document.body.classList.remove("has-pointer");
   });
 
-  const revealItems = document.querySelectorAll(".section-heading, .about-photo, .about-content, .service-grid article, .process-list li, .testimonial-grid figure, .contact-section > *");
+  const revealItems = document.querySelectorAll(".section-heading, .about-photo, .about-content, .youtube-coverflow, .work-coverflow, .filter-bar, .service-grid article, .process-list li, .testimonial-grid figure, .contact-section > *, .site-footer > *");
 
   revealItems.forEach((item) => item.classList.add("reveal"));
 
