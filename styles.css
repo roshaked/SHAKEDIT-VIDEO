@@ -2119,6 +2119,16 @@ button:disabled {
   margin-top: 24px;
 }
 
+/* Give the desktop showcases the full visual stage they need. */
+@media (min-width: 981px) {
+  .youtube-coverflow,
+  .work-coverflow {
+    width: calc(100% + 12vw);
+    max-width: none;
+    margin-inline: -6vw;
+  }
+}
+
 @keyframes cinematicReveal {
   from {
     opacity: 0;
