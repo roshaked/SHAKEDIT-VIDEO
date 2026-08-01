@@ -2073,6 +2073,19 @@ button:disabled {
   transform: translate3d(0, 0, 0);
 }
 
+.youtube-coverflow.reveal,
+.youtube-coverflow.reveal.is-visible,
+.coverflow-stage .youtube-card,
+.coverflow-stage .video-card {
+  opacity: 1;
+  filter: none;
+}
+
+.coverflow-stage .youtube-card,
+.coverflow-stage .video-card {
+  visibility: visible;
+}
+
 @keyframes cinematicReveal {
   from {
     opacity: 0;
